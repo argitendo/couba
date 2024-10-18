@@ -1,4 +1,3 @@
-import React from 'react'
 import { Icons } from '../icons'
 
 export function Inputs({ children }) {
@@ -16,11 +15,16 @@ function CustomInputs({ children }) {
   )
 }
 
-function CustomFormInputs({ children, types }) {
+function CustomFormInputs({ children, types, values, onChanges, placeholders }) {
   return (
     <section className='flex flex-col mt-4 text-left w-full'>
       <label className='text-white text-base font-sans-nutito font-normal'>{children}</label>
-      <input type={types} className='bg-white rounded-md px-2 py-2 font-normal text-base focus:outline-none focus:ring focus:ring-mainColor-tertiary' />
+      <input 
+        type={types} 
+        value={values} 
+        onChange={onChanges}
+        placeholder={placeholders}
+        className='bg-white rounded-md px-2 py-2 font-normal text-black text-base focus:outline-none focus:ring focus:ring-mainColor-tertiary' />
     </section>
   )
 }

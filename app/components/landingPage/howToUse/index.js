@@ -27,8 +27,13 @@ const fadeIn = {
 
 export default function ThirdPages() {
   return (
-    <section id='how-to-screen' >
-      <Image src={Backgrounds} alt='backgrounds' className='h-screen xl:min-h-screen xl:bg-cover xl:bg-center -z-10 absolute' />
+    <section id='how-to-screen' className='relative'>
+      <Image 
+        src={Backgrounds} 
+        alt='backgrounds' 
+        className='w-full h-full xl:min-h-screen bg-cover bg-center -z-10 absolute object-cover' 
+        layout='fill' // This ensures the image spans its container
+      />
       <section className='flex flex-col text-white py-36'>
         <section className="flex flex-col xl:flex-col mx-auto px-4 pb-8 xl:pb-20 text-center text-4xl font-black font-serif-archivo">
           <h2 className='mb-4 mx-auto text-white'>Pake Couba aja! Ga ribet kok, cuma 3 step:</h2>

@@ -1,4 +1,6 @@
 import googleIcon from '@/public/assets/logo/Google.png';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export function Buttons({ children }) {
   return (
@@ -8,6 +10,7 @@ export function Buttons({ children }) {
 
 // Main Rounded Blue Button
 export default function MainButtons({
+  to,
   children,
   onClicks,
   types = "button",
@@ -15,33 +18,38 @@ export default function MainButtons({
 }) {
   return (
     // https://stackoverflow.com/questions/61927604/pass-custom-prop-or-data-to-next-js-link-component
-    <div className='bg-black translate-y-1 rounded-full'>
-      <button
-        type={types}
-        onClick={onClicks}
-        className={`button-main ${customButton} text-base font-bold font-sans-nutito -translate-y-1 rounded-full border-2 border-mainColor-tertiary`} >
-        {children}
-      </button>
-    </div>
+    <Link href={ to ?? "/" }>
+      <div className='bg-black translate-y-1 rounded-full'>
+        <button
+          type={types}
+          onClick={onClicks}
+          className={`button-main ${customButton} text-base font-bold font-sans-nutito -translate-y-1 rounded-full border-2 border-mainColor-tertiary`} >
+          {children}
+        </button>
+      </div>
+    </Link>
   );
 }
 
 // White Variant Main Button
 export function WhiteVariantsMainButton({
+  to,
   children,
   onClicks,
   types = "button",
   customButton = 'px-[1.5rem] py-[1rem]',
 }) {
   return (
-    <div className='bg-mainColor-tertiary translate-y-1 rounded-full'>
-      <button
-        type={types}
-        onClick={onClicks}
-        className={`button-variant-secondary ${customButton} text-base font-bold font-sans-nutito -translate-y-1 rounded-full border-2 border-mainColor-tertiary`}>
-        {children}
-      </button>
-    </div>
+    <Link href={ to ?? '/'}>
+      <div className='bg-mainColor-tertiary translate-y-1 rounded-full'>
+        <button
+          type={types}
+          onClick={onClicks}
+          className={`button-variant-secondary ${customButton} text-base font-bold font-sans-nutito -translate-y-1 rounded-full border-2 border-mainColor-tertiary`}>
+          {children}
+        </button>
+      </div>
+    </Link>
   );
 }
 
@@ -54,14 +62,16 @@ export function GreenVariantsMainButton({
   customButton = 'px-[1.5rem] py-[1rem] text-black',
 }) {
   return (
-    <div className='bg-mainColor-tertiary translate-y-1 rounded-full'>
-      <button
-        type={types}
-        onClick={onClicks}
-        className={`button-secondary ${customButton} text-base font-bold font-sans-nutito -translate-y-1 rounded-full border-2 border-mainColor-tertiary`}>
-        {children}
-      </button>
-    </div>
+    <Link href={ to ?? '/'}>
+      <div className='bg-mainColor-tertiary translate-y-1 rounded-full'>
+        <button
+          type={types}
+          onClick={onClicks}
+          className={`button-secondary ${customButton} text-base font-bold font-sans-nutito -translate-y-1 rounded-full border-2 border-mainColor-tertiary`}>
+          {children}
+        </button>
+      </div>
+    </Link>
   );
 }
 
@@ -74,14 +84,16 @@ export function SecondaryButton({
   customButton = 'px-8 py-4',
 }) {
   return (
-    <div className='bg-mainColor-tertiary translate-y-1 rounded-lg'>
-      <button
-        type={types}
-        onClick={onClicks}
-        className={`button-secondary ${customButton} text-base font-bold font-sans-nutito -translate-y-1 rounded-lg border-2 border-mainColor-tertiary`}>
-        {children}
-      </button>
-    </div>
+    <Link href={ to ?? '/'}>
+      <div className='bg-mainColor-tertiary translate-y-1 rounded-lg'>
+        <button
+          type={types}
+          onClick={onClicks}
+          className={`button-secondary ${customButton} text-base font-bold font-sans-nutito -translate-y-1 rounded-lg border-2 border-mainColor-tertiary`}>
+          {children}
+        </button>
+      </div>
+    </Link>
   );
 }
 
@@ -93,13 +105,15 @@ export function WhiteVariantsSecondaryButton({
   customButton = 'px-8 py-4',
 }) {
   return (
-    <div className='bg-mainColor-tertiary translate-y-1 rounded-lg'>
-      <button
-        onClick={onClicks}
-        className={`button-variant-secondary ${customButton} text-base font-bold font-sans-nutito -translate-y-1 rounded-lg border-2 border-mainColor-tertiary`}>
-        {children}
-      </button>
-    </div>
+    <Link href={ to ?? '/'}>
+      <div className='bg-mainColor-tertiary translate-y-1 rounded-lg'>
+        <button
+          onClick={onClicks}
+          className={`button-variant-secondary ${customButton} text-base font-bold font-sans-nutito -translate-y-1 rounded-lg border-2 border-mainColor-tertiary`}>
+          {children}
+        </button>
+      </div>
+    </Link>
   );
 }
 
@@ -111,11 +125,13 @@ export function BlueVariantsSecondaryButton({
   customButton = 'px-8 py-4 text-white',
 }) {
   return (
-    <div className='bg-mainColor-tertiary translate-y-1 rounded-lg'>
-      <button className={`button-main ${customButton} text-base font-bold font-sans-nutito -translate-y-1 rounded-lg border-2 border-mainColor-tertiary`}>
-        {children}
-      </button>
-    </div>
+    <Link href={ to ?? '/'}>
+      <div className='bg-mainColor-tertiary translate-y-1 rounded-lg'>
+        <button className={`button-main ${customButton} text-base font-bold font-sans-nutito -translate-y-1 rounded-lg border-2 border-mainColor-tertiary`}>
+          {children}
+        </button>
+      </div>
+    </Link>
   );
 }
 
@@ -123,7 +139,7 @@ export function BlueVariantsSecondaryButton({
 export function GoogleSignInButton({ children }) {
   return (
     <button className="flex justify-between text-sm font-medium p-4 border-2 border-[#C1D5F6] rounded-full hover:bg-slate-50">
-      <img src={googleIcon} alt="Google sign-in" className='w-8 xl:ml-8' />
+      <Image src={googleIcon} alt="Google sign-in" className='w-8 xl:ml-8' />
       <div className="mx-2 xl:mx-8" />
       <span className="text-xl font-medium justify-center self-center font-sans-roboto xl:mr-8">
         {children}

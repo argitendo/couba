@@ -87,10 +87,10 @@ export default function MainNavbar({
             className='absolute top-0 left-0 w-full h-screen bg-white flex flex-col items-center justify-center'
           >
             <div className='flex flex-col justify-center mobile-nav items-center text-3xl md:text-4xl font-serif-archivo font-black'>
-              <Link href='/' onClick={() => { closeMenu(); document.getElementById('how-to-screen').scrollIntoView(); }} title={navBaritems[0].title} className='mb-4 md:mb-10 text-black'>{navBaritems[0].title}</Link>
-              <Link href='/' onClick={() => { closeMenu(); document.getElementById('feature-screen').scrollIntoView(); }} title={navBaritems[1].title} className='mb-4 md:mb-10 text-black'>{navBaritems[1].title}</Link>
-              <Link href='/' onClick={() => { closeMenu(); document.getElementById('accessories-screen').scrollIntoView(); }} title={navBaritems[2].title} className='mb-4 md:mb-10 text-black'>{navBaritems[2].title}</Link>
-              <Link href='/' onClick={() => { closeMenu(); document.getElementById('faq-screen').scrollIntoView(); }} title={navBaritems[3].title} className='mb-4 text-black'>{navBaritems[3].title}</Link>
+              <a onClick={() => { closeMenu(); document.getElementById('how-to-screen').scrollIntoView(); }} title={navBaritems[0].title} className='mb-4 md:mb-10 text-black cursor-pointer'>{navBaritems[0].title}</a>
+              <a onClick={() => { closeMenu(); document.getElementById('feature-screen').scrollIntoView(); }} title={navBaritems[1].title} className='mb-4 md:mb-10 text-black cursor-pointer'>{navBaritems[1].title}</a>
+              <a onClick={() => { closeMenu(); document.getElementById('accessories-screen').scrollIntoView(); }} title={navBaritems[2].title} className='mb-4 md:mb-10 text-black cursor-pointer'>{navBaritems[2].title}</a>
+              <a onClick={() => { closeMenu(); document.getElementById('faq-screen').scrollIntoView(); }} title={navBaritems[3].title} className='mb-4 text-black cursor-pointer'>{navBaritems[3].title}</a>
               <div className='relative'>
                 <div className='mt-4 bottom-0'>
                   <Button.Secondary onClicks={toggleModal} customButton='py-4 px-20 w-full'>{navBaritems[4].title}</Button.Secondary>
@@ -119,15 +119,15 @@ export default function MainNavbar({
       </AnimatePresence>
 
       <nav className='lg:flex flex-row items-center hidden font-serif-nutito text-left text-base font-sans-nutito'>
-        <Link href='/' onClick={() => { document.getElementById('how-to-screen').scrollIntoView(); }} title={navBaritems[0].title} className={`mr-8 ${isSecondary ? 'text-white' : 'text-mainColor-tertiary'}`}>{navBaritems[0].title}</Link>
-        <Link href='/' onClick={() => { document.getElementById('feature-screen').scrollIntoView(); }} title={navBaritems[1].title} className={`mr-8 ${isSecondary ? 'text-white' : 'text-mainColor-tertiary'}`}>{navBaritems[1].title}</Link>
-        <Link href='/' onClick={() => { document.getElementById('accessories-screen').scrollIntoView(); }} title={navBaritems[2].title} className={`mr-8 ${isSecondary ? 'text-white' : 'text-mainColor-tertiary'}`}>{navBaritems[2].title}</Link>
-        <Link href='/' onClick={() => { document.getElementById('faq-screen').scrollIntoView(); }} title={navBaritems[3].title} className={`mr-[2rem] ${isSecondary ? 'text-white' : 'text-mainColor-tertiary'}`}>{navBaritems[3].title}</Link>
+        <a onClick={() => { closeMenu(); document.getElementById('how-to-screen').scrollIntoView() }} title={navBaritems[0].title} className={`mr-8 ${isSecondary ? 'text-white' : 'text-mainColor-tertiary'} cursor-pointer`}>{navBaritems[0].title}</a>
+        <a onClick={() => { closeMenu(); document.getElementById('feature-screen').scrollIntoView(); }} title={navBaritems[1].title} className={`mr-8 ${isSecondary ? 'text-white' : 'text-mainColor-tertiary'} cursor-pointer`}>{navBaritems[1].title}</a>
+        <a onClick={() => { closeMenu(); document.getElementById('accessories-screen').scrollIntoView(); }} title={navBaritems[2].title} className={`mr-8 ${isSecondary ? 'text-white' : 'text-mainColor-tertiary'} cursor-pointer`}>{navBaritems[2].title}</a>
+        <a onClick={() => { closeMenu(); document.getElementById('faq-screen').scrollIntoView(); }} title={navBaritems[3].title} className={`mr-[2rem] ${isSecondary ? 'text-white' : 'text-mainColor-tertiary'} cursor-pointer`}>{navBaritems[3].title}</a>
         <div className='mr-2' title={navBaritems[4].title}>
-          <Button.Secondary onClicks={toggleModal} customButton='py-4 px-8'>{navBaritems[4].title}</Button.Secondary>
+          <Button.Secondary  onClicks={toggleModal} customButton='py-4 px-8'>{navBaritems[4].title}</Button.Secondary>
         </div>
         <div title={navBaritems[5].title}>
-          <Button.SecondaryVariants to='/login' customButton='py-4 px-12'>{navBaritems[5].title}</Button.SecondaryVariants>
+          <Button.SecondaryVariants to={'/login'} customButton='py-4 px-12'>{navBaritems[5].title}</Button.SecondaryVariants>
         </div>
       </nav>
 
