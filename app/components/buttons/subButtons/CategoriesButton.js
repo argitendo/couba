@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 
-const categories = ['Cincin', 'Jewelry', 'Eyewear', 'Watches', 'Outfit']
+// const categories = ['Cincin', 'Jewelry', 'Eyewear', 'Watches', 'Outfit']
+const categories = ['ring', 'earring', 'necklace', 'bracelet']
 
 function CategoriesButton() {
    const [selectedCategory, setSelectedCategory] = useState('Jewelry')

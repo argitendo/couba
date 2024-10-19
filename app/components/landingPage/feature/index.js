@@ -8,7 +8,7 @@ import Blurs from '@/public/assets/decoration/Blurs.png'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ImageDecoration } from '@/app/components/decoration'
-import "@/app/components/landingPage/styles/app.css"
+import "@/app/app.css"
 
 export default function FourthPages() {
   return (

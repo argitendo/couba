@@ -1,9 +1,9 @@
-import Demo from "../components/loginPage"
+import Logins from "../components/loginPage"
 
 function Login() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Demo />
+    <main className="min-h-screen w-full flex-col items-center justify-between">
+      <Logins />
     </main>
   )
 }

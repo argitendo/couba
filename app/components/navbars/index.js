@@ -124,7 +124,7 @@ export default function MainNavbar({
         <a onClick={() => { closeMenu(); document.getElementById('accessories-screen').scrollIntoView(); }} title={navBaritems[2].title} className={`mr-8 ${isSecondary ? 'text-white' : 'text-mainColor-tertiary'} cursor-pointer`}>{navBaritems[2].title}</a>
         <a onClick={() => { closeMenu(); document.getElementById('faq-screen').scrollIntoView(); }} title={navBaritems[3].title} className={`mr-[2rem] ${isSecondary ? 'text-white' : 'text-mainColor-tertiary'} cursor-pointer`}>{navBaritems[3].title}</a>
         <div className='mr-2' title={navBaritems[4].title}>
-          <Button.Secondary  onClicks={toggleModal} customButton='py-4 px-8'>{navBaritems[4].title}</Button.Secondary>
+          <Button.Secondary to={''} onClicks={toggleModal} customButton='py-4 px-8'>{navBaritems[4].title}</Button.Secondary>
         </div>
         <div title={navBaritems[5].title}>
           <Button.SecondaryVariants to={'/login'} customButton='py-4 px-12'>{navBaritems[5].title}</Button.SecondaryVariants>

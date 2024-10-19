@@ -19,7 +19,7 @@ export default function AccessoriesPage() {
           <CardComponentTop data={data} />
         </section>
 
-        <div className='hidden xl:flex my-4 xl:my-4'/>
+        <div className='hidden xl:flex my-4 xl:my-4' />
 
         <section className='flex flex-col md:flex-row xl:flex-row justify-center w-full xl:w-3/4 mx-auto'>
           <CardComponentBottom data={data} />
@@ -42,35 +42,35 @@ export const CardSection = ({ image, title }) => (
 export const CardComponentTop = ({ data }) => (
   <>
     {data.slice(0, 3).map((item, index) => (
-        <div
-          key={index}
-          className="relative group transform transition-transform duration-300 ease-out hover:-translate-y-4 pb-8 md:mx-4 xl:mx-8 xl:-mb-2"
-        >
-          <CardSection image={item.image} title={item.name} />
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <Button.MainVariantsGreen to={`/product/${item.id}`} customButton="py-4 px-16 xl:py-2 xl:px-8 text-xl xl:text-base">
-              Coba Gratis
-            </Button.MainVariantsGreen>
-          </div>
+      <div
+        key={index}
+        className="relative group transform transition-transform duration-300 ease-out hover:-translate-y-4 pb-8 md:mx-4 xl:mx-8 xl:-mb-2"
+      >
+        <CardSection image={item.image} title={item.name} />
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <Button.MainVariantsGreen to={`/product/${item.id}`} customButton="py-4 px-16 xl:py-2 xl:px-8 text-xl xl:text-base">
+            Coba Gratis
+          </Button.MainVariantsGreen>
         </div>
-      ))}
+      </div>
+    ))}
   </>
 );
 
 export const CardComponentBottom = ({ data }) => (
   <>
     {data.slice(3, 5).map((item, index) => (
-        <div
-          key={index}
-          className="relative group transform transition-transform duration-300 ease-out hover:-translate-y-4 pb-8 md:mx-4 xl:mx-8 xl:mb-8"
-        >
-          <CardSection image={item.image} title={item.name} />
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <Button.MainVariantsGreen to={`/product/${item.id}`} customButton="py-4 px-16 xl:py-2 xl:px-8 text-xl xl:text-base">
-              Coba Gratis
-            </Button.MainVariantsGreen>
-          </div>
+      <div
+        key={index}
+        className="relative group transform transition-transform duration-300 ease-out hover:-translate-y-4 pb-8 md:mx-4 xl:mx-8 xl:mb-8"
+      >
+        <CardSection image={item.image} title={item.name} />
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <Button.MainVariantsGreen to={`/product/${item.id}`} customButton="py-4 px-16 xl:py-2 xl:px-8 text-xl xl:text-base">
+            Coba Gratis
+          </Button.MainVariantsGreen>
         </div>
-      ))}
+      </div>
+    ))}
   </>
 );

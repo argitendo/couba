@@ -2,11 +2,11 @@
 
 import Backgrounds from '../../../../public/assets/backgrounds/backgrounds_2.png'
 import FAQButtons from '../../../components/buttons/subButtons/FAQButtons'
+import Image from 'next/image'
 import data from '../../data/QuestionData'
-import { Button } from '../../../components/buttons'
+import { Button } from '../../buttons'
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import Image from 'next/image'
 
 export default function SeventhPages() {
   const [activeIndex, setActiveIndex] = useState(null)
@@ -54,7 +54,7 @@ export default function SeventhPages() {
             whileTap={{scale: 0.9}}
             transition={{duration: 0.1}}
           >
-            <Button.SecondaryVariants customButton='flex px-8 py-4 my-auto' onClicks={handleLoadMoreOrLess} >
+            <Button.SecondaryVariants to={''} customButton='flex px-8 py-4 my-auto' onClicks={handleLoadMoreOrLess} >
               {allLoaded ? 'Muat lebih sedikit' : 'Muat lebih banyak'}
               <span className='pl-4 inline-block '>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" className='flex my-auto'>

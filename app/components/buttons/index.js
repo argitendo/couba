@@ -18,11 +18,10 @@ export default function MainButtons({
 }) {
   return (
     // https://stackoverflow.com/questions/61927604/pass-custom-prop-or-data-to-next-js-link-component
-    <Link href={ to ?? "/" }>
+    <Link href={ to ?? "/" } onClick={onClicks}>
       <div className='bg-black translate-y-1 rounded-full'>
         <button
           type={types}
-          onClick={onClicks}
           className={`button-main ${customButton} text-base font-bold font-sans-nutito -translate-y-1 rounded-full border-2 border-mainColor-tertiary`} >
           {children}
         </button>
@@ -141,7 +140,7 @@ export function GoogleSignInButton({ children }) {
     <button className="flex justify-between text-sm font-medium p-4 border-2 border-[#C1D5F6] rounded-full hover:bg-slate-50">
       <Image src={googleIcon} alt="Google sign-in" className='w-8 xl:ml-8' />
       <div className="mx-2 xl:mx-8" />
-      <span className="text-xl font-medium justify-center self-center font-sans-roboto xl:mr-8">
+      <span className="text-xl font-medium justify-center self-center font-sans-roboto xl:mr-8 text-mainColor-tertiary">
         {children}
       </span>
     </button>

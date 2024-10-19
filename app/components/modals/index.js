@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Image from 'next/image';
-import { Input, Inputs } from '../inputs';
+import { Input } from '../inputs';
 import { Button } from '../buttons';
 import Exit from '../../../public/assets/svg/exit.svg';
 import SemiLogo from '../../../public/assets/logo/logo_half.png';

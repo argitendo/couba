@@ -77,13 +77,13 @@ code {
 }
 
 .form-background-image {
-  background-image: url('../../../../public/assets/backgrounds/backgrounds_2.png');
+  background-image: url('../public/assets/backgrounds/backgrounds_2.png');
   background-size: cover;
   background-position: center;
 }
 
 .contact-background-image {
-  background-image: url('../../../../public/assets/backgrounds/backgrounds_3.png');
+  background-image: url('../public/assets/backgrounds/backgrounds_3.png');
   background-repeat: no-repeat;
   background-size: cover;
 }

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Layout } from '@/app/components/layouts'
 import HeroPages from './hero'
 import ProblemPages from './problems'
