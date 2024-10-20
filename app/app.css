@@ -20,6 +20,14 @@ h1 {
   font-family: 'Archivo', sans-serif;
 }
 
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 p {
   font-family: 'Nunito Sans', sans-serif;
 }
@@ -27,6 +35,15 @@ p {
 html {
   scroll-behavior: smooth;
 }
+
+/* button:hover {
+  border-color: none;
+  border-width: 0;
+}
+button:focus,
+button:focus-visible {
+  outline: none;
+} */
 
 ::selection {
   @apply bg-mainColor-secondary text-mainColor-tertiary;

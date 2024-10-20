@@ -10,6 +10,7 @@ import BannerMobile from '../../../public/assets/decoration/DecorMobiles.png';
 import BannerDecors from '../../../public/assets/decoration/BannerHandFront.png';
 import ImageHandsLeft from '../../../public/assets/decoration/HandsMobileLeft.png';
 import ImageHandsRight from '../../../public/assets/decoration/HandsMobileRight.png';
+import Link from 'next/link';
 
 function ModalForm({ toggleExit }) {
   const [fullName, setFullName] = useState('');
@@ -40,7 +41,7 @@ function ModalForm({ toggleExit }) {
   };
 
     return (
-      <section className='w-full md:w-3/4 mx-auto px-4 sm:px-6 md:px-8 lg:px-12'>
+      <section className='w-full md:w-3/4 mx-auto px-4 sm:px-6 md:px-8 lg:px-8'>
         <section className='bg-mainColor-tertiary translate-x-2 translate-y-2 rounded-2xl'>
           <section className='flex flex-col md:flex-row relative bg-white -translate-x-2 -translate-y-2 rounded-2xl justify-evenly'>
 
@@ -53,7 +54,7 @@ function ModalForm({ toggleExit }) {
 
             <form
               onSubmit={handleSubmit}
-              className='flex flex-col bg-mainColor-primary px-4 sm:px-8 md:px-16 lg:px-24 xl:pl-24 xl:pr-12 pt-4 pb-4 justify-center rounded-tl-2xl rounded-tr-2xl
+              className='flex flex-col bg-mainColor-primary px-4 sm:px-8 md:px-16 lg:px-24 xl:pl-24 xl:pr-12 pt-12 pb-4 justify-center rounded-tl-2xl rounded-tr-2xl
               md:rounded-tr-none md:rounded-tl-2xl md:rounded-bl-2xl text-left w-full md:w-3/5'>
               <h1 className='text-xl sm:text-2xl md:text-3xl xl:text-4xl text-white font-bold text-center md:text-left'>
                 Isi data diri kamu dulu yuk
@@ -78,9 +79,11 @@ function ModalForm({ toggleExit }) {
 
               <div className='mb-8' />
               <div className='flex justify-center md:justify-start -translate-x-4 -translate-y-4'>
-                <Button.MainVariantsWhite to={'/demo'} type='submit' customButton='py-3 px-8 sm:px-10 md:px-12'>
-                  Submit
-                </Button.MainVariantsWhite>
+                <Link href='/demo'>
+                  <Button.MainVariantsWhite type='submit' customButton='py-3 px-10 sm:px-10 md:px-12'>
+                    Submit
+                  </Button.MainVariantsWhite>
+                </Link>
               </div>
             </form>
 

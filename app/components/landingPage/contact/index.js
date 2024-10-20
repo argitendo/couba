@@ -16,7 +16,7 @@ export default function ContactPages() {
         <h2 className='text-4xl font-bold  text-center font-serif-archivo text-white'>Mau ajak ngobrol kita dulu?</h2>
         <p className='text-lg text-white text-center font-sans-nutito mt-8 mb-[3.625rem]'>Boleh dongs, klik button di bawah ini biar bisa kita kontak yaaa</p>
         <div className='flex justify-center'>
-          <Button.MainVariantsWhite to={''} onClicks={() => { document.getElementById('intro-screen').scrollIntoView() }} customButton='px-12 py-4 xl:px-8 xl:py-3'> Kontak Couba </Button.MainVariantsWhite>
+          <Button.MainVariantsWhite onClicks={() => { document.getElementById('intro-screen').scrollIntoView() }} customButton='px-12 py-4 xl:px-8 xl:py-3'> Kontak Couba </Button.MainVariantsWhite>
         </div>
       </section>
     </section>

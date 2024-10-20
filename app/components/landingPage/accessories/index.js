@@ -1,6 +1,6 @@
 import data from '@/app/components/data/PreviewsData'
-import { Card } from '../../../components/cards'
-import { Button, PrimaryButton, SecondaryButton } from '@/app/components/buttons'
+import { Card } from '@/app/components/cards'
+import { Button } from '@/app/components/buttons'
 import { ImageDecoration } from '../../../components/decoration'
 
 export default function AccessoriesPage() {
@@ -48,7 +48,7 @@ export const CardComponentTop = ({ data }) => (
       >
         <CardSection image={item.image} title={item.name} />
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <Button.MainVariantsGreen to={`/product/${item.id}`} customButton="py-4 px-16 xl:py-2 xl:px-8 text-xl xl:text-base">
+          <Button.MainVariantsGreen customButton="py-4 px-16 xl:py-2 xl:px-8 text-xl xl:text-base">
             Coba Gratis
           </Button.MainVariantsGreen>
         </div>
@@ -66,7 +66,7 @@ export const CardComponentBottom = ({ data }) => (
       >
         <CardSection image={item.image} title={item.name} />
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <Button.MainVariantsGreen to={`/product/${item.id}`} customButton="py-4 px-16 xl:py-2 xl:px-8 text-xl xl:text-base">
+          <Button.MainVariantsGreen customButton="py-4 px-16 xl:py-2 xl:px-8 text-xl xl:text-base">
             Coba Gratis
           </Button.MainVariantsGreen>
         </div>

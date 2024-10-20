@@ -2,14 +2,12 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 
 // const categories = ['Cincin', 'Jewelry', 'Eyewear', 'Watches', 'Outfit']
-const categories = ['ring', 'earring', 'necklace', 'bracelet']
 
-function CategoriesButton() {
-   const [selectedCategory, setSelectedCategory] = useState('Jewelry')
+function CategoriesButton({ selectedCategory, setSelectedCategory, categories }) {
 
    return (
       <motion.div
-         className="flex md:overflow-hidden flex-wrap px-6 my-4 space-x-8 justify-between w-full"
+         className="flex md:overflow-hidden flex-wrap justify-between w-full"
          initial={{ opacity: 0 }}
          animate={{ opacity: 1 }}
          transition={{ duration: 0.5 }}
@@ -18,11 +16,12 @@ function CategoriesButton() {
             <motion.button
                key={category}
                onClick={() => setSelectedCategory(category)}
-               className={`xl:px-4 py-4 rounded-xl focus:outline-none font-sans-nutito ${selectedCategory === category
-                  ? 'bg-mainColor-primary text-white'
-                  : 'text-gray-800'
+               className={`text-center justify-center font-medium text-base md:text-lg xl:text-2xl mx-4 xl:mx-8 p-4 rounded-sm
+                  ${selectedCategory === category
+                  ? 'text-mainColor-primary border-4 border-b-mainColor-primary'
+                  : 'text-gray-500'
                }`}
-               whileHover={{ scale: 1.1 }}
+               whileHover={{ scale: 0.9 }}
                whileTap={{ scale: 0.95 }}
             >
                {category}

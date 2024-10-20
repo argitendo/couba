@@ -10,36 +10,36 @@ export function Buttons({ children }) {
 
 // Main Rounded Blue Button
 export default function MainButtons({
-  to,
+  // to,
   children,
   onClicks,
   types = "button",
   customButton = 'px-[3rem] py-[1rem] text-white'
 }) {
   return (
-    // https://stackoverflow.com/questions/61927604/pass-custom-prop-or-data-to-next-js-link-component
-    <Link href={ to ?? "/" } onClick={onClicks}>
+    // <Link href={ to ?? "/" } onClick={onClicks}>
       <div className='bg-black translate-y-1 rounded-full'>
         <button
+          onClick={onClicks}
           type={types}
           className={`button-main ${customButton} text-base font-bold font-sans-nutito -translate-y-1 rounded-full border-2 border-mainColor-tertiary`} >
           {children}
         </button>
       </div>
-    </Link>
+    // </Link>
   );
 }
 
 // White Variant Main Button
 export function WhiteVariantsMainButton({
-  to,
+  // to,
   children,
   onClicks,
   types = "button",
   customButton = 'px-[1.5rem] py-[1rem]',
 }) {
   return (
-    <Link href={ to ?? '/'}>
+    // <Link href={ to ?? '/'}>
       <div className='bg-mainColor-tertiary translate-y-1 rounded-full'>
         <button
           type={types}
@@ -48,20 +48,20 @@ export function WhiteVariantsMainButton({
           {children}
         </button>
       </div>
-    </Link>
+    // </Link>
   );
 }
 
 // Green Variant Main Button
 export function GreenVariantsMainButton({
-  to,
+  // to,
   children,
   onClicks,
   types = "button",
   customButton = 'px-[1.5rem] py-[1rem] text-black',
 }) {
   return (
-    <Link href={ to ?? '/'}>
+    // <Link href={ to ?? '/'}>
       <div className='bg-mainColor-tertiary translate-y-1 rounded-full'>
         <button
           type={types}
@@ -70,20 +70,20 @@ export function GreenVariantsMainButton({
           {children}
         </button>
       </div>
-    </Link>
+    // </Link>
   );
 }
 
 // Secondary Rectangular Button
 export function SecondaryButton({
-  to,
+  // to,
   children,
   onClicks,
   types = "button",
   customButton = 'px-8 py-4',
 }) {
   return (
-    <Link href={ to ?? '/'}>
+    // <Link href={ to ?? '/'}>
       <div className='bg-mainColor-tertiary translate-y-1 rounded-lg'>
         <button
           type={types}
@@ -92,19 +92,19 @@ export function SecondaryButton({
           {children}
         </button>
       </div>
-    </Link>
+    // </Link>
   );
 }
 
 // White Variant Secondary Button
 export function WhiteVariantsSecondaryButton({
-  to,
+  // to,
   children,
   onClicks,
   customButton = 'px-8 py-4',
 }) {
   return (
-    <Link href={ to ?? '/'}>
+    // <Link href={ to ?? '/'}>
       <div className='bg-mainColor-tertiary translate-y-1 rounded-lg'>
         <button
           onClick={onClicks}
@@ -112,7 +112,7 @@ export function WhiteVariantsSecondaryButton({
           {children}
         </button>
       </div>
-    </Link>
+    // </Link>
   );
 }
 

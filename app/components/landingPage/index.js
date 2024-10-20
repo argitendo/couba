@@ -7,6 +7,7 @@ import ProductPages from './accessories'
 import ComingSoonPages from './comingSoon'
 import FAQPages from './faq'
 import ContactPages from './contact'
+import '@/app/app.css'
 
 function LandingPages() {
   return (
