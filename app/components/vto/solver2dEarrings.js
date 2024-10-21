@@ -140,7 +140,7 @@ export function rigEarringRotation(model, faceLandmarks) {
   rigRotation(model.l, 'lEarring', rotation, 0.9);
 }
 
-export function rigEarringPosition(model, faceLandmarks, camera) {
+export function rigEarringPosition(model, faceLandmarks, camera, optScale, optPosX, optPosY) {
   const tm = new THREE.Matrix4().fromArray(faceLandmarks.tm);
   const headRotation = new THREE.Euler().setFromRotationMatrix(tm);
 
@@ -168,7 +168,7 @@ export function rigEarringPosition(model, faceLandmarks, camera) {
 
   // const scaleBaseLine = 0.2;
   // const skala = scaleBaseLine + (faceWidth * (faceWidthPxl / 175));
-  const skala = faceWidthPxl / 400;
+  const skala = faceWidthPxl / 400 * optScale;
   // console.log(skala.toFixed(1));
   rEarring.scale.set(skala, skala, skala);
   lEarring.scale.set(skala, skala, skala);
@@ -204,14 +204,14 @@ export function rigEarringPosition(model, faceLandmarks, camera) {
   const mirrored = -1; // 1 = not mirrored; -1 = mirrored
 
   const rTargetPos = new THREE.Vector3(
-    mirrored * (rnl.x + rEarOffset.x),
-    rnl.y + rEarOffset.y,
+    mirrored * (rnl.x + rEarOffset.x) + optPosX,
+    rnl.y + rEarOffset.y + optPosY,
     rnl.z + rEarOffset.z
   );
 
   const lTargetPos = new THREE.Vector3(
-    mirrored * (lnl.x + lEarOffset.x),
-    lnl.y + lEarOffset.y,
+    mirrored * (lnl.x + lEarOffset.x) + -optPosX,
+    lnl.y + lEarOffset.y + optPosY,
     lnl.z + lEarOffset.z
   );
 
@@ -252,4 +252,10 @@ export function checkFaceSize(model, faceLandmarks, setShowInstruction) {
     setShowInstruction(false);
   }
 
+}
+
+export function rigEarring(model, faceLandmarks, camera, setShowInstruction, optScale, optPosX, optPosY) {
+  rigEarringRotation(model, faceLandmarks);
+  rigEarringPosition(model, faceLandmarks, camera, optScale, optPosX, optPosY);
+  checkFaceSize(model, faceLandmarks, setShowInstruction);
 }

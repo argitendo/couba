@@ -130,7 +130,7 @@ function getPixel(landmark) {
 export const degToRad = (degree) => { return degree / 180 * Math.PI };
 export const radToDeg = (radian) => { return radian / Math.PI * 180 };
 
-export function rigRing(model, handLandmarks, handWorldLandmarks, camera, fingerName, setInstruction) {
+export function rigRing(model, handLandmarks, handWorldLandmarks, camera, fingerName, setInstruction, optScale, optPosX, optPosY) {
   if (!fingerList.includes(fingerName)) fingerName = 'ring';
 
   const ring = model.ring.getObjectByName('ring');
@@ -151,7 +151,7 @@ export function rigRing(model, handLandmarks, handWorldLandmarks, camera, finger
   mcpToPipDistance = alpha * mcpToPipDistance + (1 - alpha) * prevDistance;
 
   const divider = isMobileOrTablet() ? 190 : 150;
-  const skala = mcpToPipDistance / divider;
+  const skala = mcpToPipDistance / divider * optScale;
   ring.scale.set(skala, skala, skala);
 
   // -- Rig Rotation
@@ -211,8 +211,8 @@ export function rigRing(model, handLandmarks, handWorldLandmarks, camera, finger
   const offset = { x: 0, y: 0, z: 0 };
   const mirrored = -1; // 1 = not mirrored; -1 = mirrored
   const ringTargetPos = new THREE.Vector3(
-    mirrored * (rp.x + offset.x),
-    rp.y + offset.y,
+    mirrored * (rp.x + offset.x) + optPosX,
+    rp.y + offset.y + optPosY,
     rp.z + offset.z
   );
   model.ring.position.lerp(ringTargetPos, config.lerp.value);

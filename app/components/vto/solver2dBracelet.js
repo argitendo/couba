@@ -33,7 +33,7 @@ export async function threeInit(canvas, braceletTexPath = null) {
 
   // Create Earring Plane
   if (braceletTexPath) {
-    const braceletPlane = new THREE.PlaneGeometry(0.1, 0.1);
+    const braceletPlane = new THREE.PlaneGeometry(0.2, 0.2);
     const braceletTex = texLoader.load(braceletTexPath);
     const uniforms = {
       uTexture: { value: braceletTex },
@@ -124,7 +124,7 @@ function getPixel(landmark) {
 export const degToRad = (degree) => { return degree / 180 * Math.PI };
 export const radToDeg = (radian) => { return radian / Math.PI * 180 };
 
-export function rigBracelet(model, handLandmarks, camera, setInstruction) {
+export function rigBracelet(model, handLandmarks, camera, setInstruction, optScale, optPosX, optPosY) {
   const bracelet = model.bracelet.getObjectByName('bracelet');
   const hl = handLandmarks;
   const wristPxl = getPixel(hl.wrist);
@@ -142,7 +142,7 @@ export function rigBracelet(model, handLandmarks, camera, setInstruction) {
   wristToMiddleMcpDistance = alpha * wristToMiddleMcpDistance + (1 - alpha) * prevDistance;
 
   const divider = isMobileOrTablet() ? 95 : 75;
-  const skala = wristToMiddleMcpDistance / divider;
+  const skala = wristToMiddleMcpDistance / divider * optScale;
   bracelet.scale.set(skala, skala, skala);
 
   // -- Rig Rotation
@@ -202,7 +202,7 @@ export function rigBracelet(model, handLandmarks, camera, setInstruction) {
   rp.unproject(camera);
 
   const mirrored = -1; // 1 = not mirrored; -1 = mirrored
-  const braceletTargetPos = new THREE.Vector3(mirrored * rp.x, rp.y, rp.z);
+  const braceletTargetPos = new THREE.Vector3(mirrored * rp.x + optPosX, rp.y + optPosY, rp.z);
   model.bracelet.position.lerp(braceletTargetPos, config.lerp.value);
 
   // -- Showing Conditions

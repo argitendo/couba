@@ -148,7 +148,7 @@ const tigaDef = {
   ikSolver: null
 }
 
-function Mapper({ targetTexture }) {
+function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
   const videoRef = useRef(null);
   const guideCanvasRef = useRef(null);
   const threeCanvasRef = useRef(null);
@@ -183,7 +183,7 @@ function Mapper({ targetTexture }) {
       audio: false,
       video: {
         // width: window.innerWidth,
-        height: window.innerHeight,
+        // height: window.innerHeight,
         aspectRatio: (defaultCameraAspectRatio),
         frameRate: { max: 30 },
         facingMode: 'user',
@@ -246,7 +246,7 @@ function Mapper({ targetTexture }) {
             handLandmarks.update(results);
             handWorldLandmarks.update(results);
             if (!sceneVisibility) tc.scene.visible = true;
-            rigBracelet(tc.model, handLandmarks, tc.camera, setShowInstruction);
+            rigBracelet(tc.model, handLandmarks, tc.camera, setShowInstruction, optScale, optPosX, optPosY);
           } else {
             tc.scene.visible = false;
             setShowInstruction(true);
@@ -265,7 +265,7 @@ function Mapper({ targetTexture }) {
 
     // return clean up function for animation frame
     return () => { window.cancelAnimationFrame(rafId.current) };
-  }, [detecting]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [detecting, optScale, optPosX, optPosY]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (detecting) {
@@ -320,9 +320,7 @@ function Mapper({ targetTexture }) {
               </>
             }
             <div className="watermark">
-              Powered by <a href="http://tenstud.tv" target="_blank" rel="noopener noreferrer">
-                <img src="https://tenstud.tv/assets/img/favicon2/logo-tenstud.png" alt="logo-tenstud" />
-              </a>
+              Powered by <a href="http://tenstud.tv" target="_blank" rel="noopener noreferrer"><img src="/logo_couba.png" alt="logo-couba"/></a>
             </div>
           </div>
           <div className="canvas-container">
@@ -348,7 +346,7 @@ function Mapper({ targetTexture }) {
   )
 }
 
-function Vto2dBracelet({ targetTexture }) {
+function Vto2dBracelet({ targetTexture, optScale, optPosX, optPosY }) {
   return (
     <>
       {!cameraAccess && <div className="container no-camera-container">
@@ -357,7 +355,15 @@ function Vto2dBracelet({ targetTexture }) {
           please refresh the page and allow the permission request.
         </p>
       </div>}
-      {cameraAccess && <div className="container"><Mapper targetTexture={targetTexture} /></div>}
+      {cameraAccess &&
+      <div className="container">
+        <Mapper
+          targetTexture={targetTexture}
+          optScale={optScale}
+          optPosX={optPosX}
+          optPosY={optPosY}
+        />
+      </div>}
     </>
   )
 }

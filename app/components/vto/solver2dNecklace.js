@@ -252,7 +252,7 @@ export function checkFaceSize(model, faceLandmarks, sl, swl, setShowInstruction)
 const prevOffset = { x: 0, y: 0 };
 const alphaOffset = 0.25; // isMobileOrTablet() ? 0.1 : 0.25;
 
-export function rigNecklacePosition2(model, faceLandmarks, sl, swl, camera, ctx) {
+export function rigNecklacePosition2(model, faceLandmarks, sl, swl, camera, ctx, optScale, optPosX, optPosY) {
   // const head = model.getObjectByName('head');
   const necklace = model.neck.getObjectByName('necklace');
 
@@ -275,7 +275,7 @@ export function rigNecklacePosition2(model, faceLandmarks, sl, swl, camera, ctx)
 
   // Scale
   const scaleBaseLine = 0.4;
-  const skala = scaleBaseLine + faceHeight * 2.3; // affeted by face size
+  const skala = scaleBaseLine + faceHeight * 2.3 * optScale; // affeted by face size
   necklace.scale.set(skala, skala, skala);
 
   // let xm = (faceLandmarks.r.x + faceLandmarks.l.x) / 2;
@@ -306,7 +306,11 @@ export function rigNecklacePosition2(model, faceLandmarks, sl, swl, camera, ctx)
   midFace.z = necklaceProjection.z;
   midFace.unproject(camera);
   const mirrored = -1; // 1 = not mirrored; -1 = mirrored
-  const newPos = new THREE.Vector3(mirrored * midFace.x, midFace.y, necklace.position.z);
+  const newPos = new THREE.Vector3(
+    mirrored * midFace.x + optPosX,
+    midFace.y + optPosY,
+    necklace.position.z
+  );
   necklace.position.lerp(newPos, config.lerp.value);
 
   // draw rotated nose
@@ -346,4 +350,10 @@ export function rigNecklaceRotation(model, poseLandmarks) {
   const necklace = model.neck.getObjectByName('necklace');
   const weight = Math.sin(necklace.rotation.y);
   uOffset.value = new THREE.Vector2(weight * 0.25, 0.0);
+}
+
+export function rigNecklace(model, faceLandmarks, sl, swl, camera, ctx, setShowInstruction, optScale, optPosX, optPosY) {
+  rigNecklaceRotation(model, swl);
+  rigNecklacePosition2(model, faceLandmarks, sl, swl, camera, ctx, optScale, optPosX, optPosY);
+  checkFaceSize(model, faceLandmarks, sl, swl, setShowInstruction);
 }

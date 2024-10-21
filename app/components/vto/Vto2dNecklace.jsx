@@ -19,7 +19,8 @@ import {
   threeInit,
   checkFaceSize,
   rigNecklaceRotation,
-  rigNecklacePosition2
+  rigNecklacePosition2,
+  rigNecklace
 } from './solver2dNecklace';
 import {
   createShader,
@@ -103,7 +104,7 @@ const tigaDef = {
 }
 
 // eslint-disable-next-line react/prop-types
-function Mapper({ targetTexture }) {
+function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
   const videoRef = useRef(null);
   const guideCanvasRef = useRef(null);
   const threeCanvasRef = useRef(null);
@@ -142,7 +143,7 @@ function Mapper({ targetTexture }) {
         audio: false,
         video: {
           // width: window.innerWidth,
-          height: window.innerHeight,
+          // height: window.innerHeight,
           aspectRatio: defaultCameraAspectRatio,
           frameRate: { max: 30 },
           facingMode: 'user',
@@ -227,11 +228,11 @@ function Mapper({ targetTexture }) {
             // console.log(results);
             faceLandmarks.update(faceResults);
             if (!sceneVisibility) tc.scene.visible = true;
-            // rigEarringRotation(tc.model, faceLandmarks);
-            rigNecklaceRotation(tc.model, swl);
-            // rigNecklacePosition(tc.model, faceLandmarks, swl, tc.camera, guideCtx);
-            rigNecklacePosition2(tc.model, faceLandmarks, sl, swl, tc.camera, guideCtx);
-            checkFaceSize(tc.model, faceLandmarks, sl, swl, setShowInstruction);
+            // rigNecklaceRotation(tc.model, swl);
+            // // rigNecklacePosition(tc.model, faceLandmarks, swl, tc.camera, guideCtx);
+            // rigNecklacePosition2(tc.model, faceLandmarks, sl, swl, tc.camera, guideCtx);
+            // checkFaceSize(tc.model, faceLandmarks, sl, swl, setShowInstruction);
+            rigNecklace(tc.model, faceLandmarks, sl, swl, tc.camera, guideCtx, setShowInstruction, optScale, optPosX, optPosY);
           } else {
             tc.scene.visible = false;
           }
@@ -250,7 +251,7 @@ function Mapper({ targetTexture }) {
         canvas.style.display = 'none';
       }
     }
-  }, [detecting]); // eslint-disable-line
+  }, [detecting, optScale, optPosX, optPosY]); // eslint-disable-line
 
   return (
     <>
@@ -294,7 +295,7 @@ function Mapper({ targetTexture }) {
               </>
             }
             <div className="watermark">
-              Powered by <a href="http://tenstud.tv" target="_blank" rel="noopener noreferrer"><img src="https://tenstud.tv/assets/img/favicon2/logo-tenstud.png" alt="logo-tenstud" /></a>
+              Powered by <a href="http://tenstud.tv" target="_blank" rel="noopener noreferrer"><img src="/logo_couba.png" alt="logo-couba"/></a>
             </div>
           </div>
           <div className="canvas-container">
@@ -321,11 +322,16 @@ function Mapper({ targetTexture }) {
 }
 
 // eslint-disable-next-line react/prop-types
-function Vto2dNecklace({ targetTexture }) {
+function Vto2dNecklace({ targetTexture, optScale, optPosX, optPosY }) {
   return (
     <>
       <div className="container">
-        <Mapper targetTexture={targetTexture} />
+        <Mapper
+          targetTexture={targetTexture}
+          optScale={optScale}
+          optPosX={optPosX}
+          optPosY={optPosY}
+        />
       </div>
     </>
   )

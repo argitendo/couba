@@ -17,6 +17,7 @@ import {
   rigEarringRotation,
   rigEarringPosition,
   checkFaceSize,
+  rigEarring,
 } from './solver2dEarrings';
 import {
   createShader,
@@ -32,11 +33,11 @@ const wasmPath = "/wasm";
 // const defaultCameraAspectRatio = 16 / 9;
 const defaultCameraAspectRatio = config.videoSize.width / config.videoSize.height;
 
-if (isMobileOrTablet()) {
-  config.videoSize.width = window.innerWidth;
-  // config.videoSize.height = window.innerHeight;
-  config.videoSize.height = window.innerWidth * defaultCameraAspectRatio;
-}
+// if (isMobileOrTablet()) {
+//   config.videoSize.width = window.innerWidth;
+//   // config.videoSize.height = window.innerHeight;
+//   config.videoSize.height = window.innerWidth * defaultCameraAspectRatio;
+// }
 
 /** Create Face Landmarker using Mediapipe Vision Tasks */
 const createFaceLandmarker = async () => {
@@ -77,7 +78,7 @@ const tigaDef = {
 }
 
 // eslint-disable-next-line react/prop-types
-function Mapper({ targetTexture }) {
+function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
   const videoRef = useRef(null);
   const guideCanvasRef = useRef(null);
   const threeCanvasRef = useRef(null);
@@ -114,7 +115,7 @@ function Mapper({ targetTexture }) {
         audio: false,
         video: {
           // width: window.innerWidth,
-          height: window.innerHeight,
+          // height: window.innerHeight,
           aspectRatio: defaultCameraAspectRatio,
           frameRate: { max: 30 },
           facingMode: 'user',
@@ -192,9 +193,10 @@ function Mapper({ targetTexture }) {
             // console.log(results);
             faceLandmarks.update(faceResults);
             if (!sceneVisibility) tc.scene.visible = true;
-            rigEarringRotation(tc.model, faceLandmarks);
-            rigEarringPosition(tc.model, faceLandmarks, tc.camera);
-            checkFaceSize(tc.model, faceLandmarks, setShowInstruction);
+            rigEarring(tc.model, faceLandmarks, tc.camera, setShowInstruction, optScale, optPosX, optPosY);
+            // rigEarringRotation(tc.model, faceLandmarks);
+            // rigEarringPosition(tc.model, faceLandmarks, tc.camera);
+            // checkFaceSize(tc.model, faceLandmarks, setShowInstruction);
           } else {
             tc.scene.visible = false;
           }
@@ -213,7 +215,7 @@ function Mapper({ targetTexture }) {
         canvas.style.display = 'none';
       }
     }
-  }, [detecting]); // eslint-disable-line
+  }, [detecting, optScale, optPosX, optPosY]); // eslint-disable-line
 
   return (
     <>
@@ -257,7 +259,7 @@ function Mapper({ targetTexture }) {
               </>
             }
             <div className="watermark">
-              Powered by <a href="http://tenstud.tv" target="_blank" rel="noopener noreferrer"><img src="https://tenstud.tv/assets/img/favicon2/logo-tenstud.png" alt="logo-tenstud"/></a>
+              Powered by <a href="http://tenstud.tv" target="_blank" rel="noopener noreferrer"><img src="/logo_couba.png" alt="logo-couba"/></a>
             </div>
           </div>
           <div className="canvas-container">
@@ -284,11 +286,16 @@ function Mapper({ targetTexture }) {
 }
 
 // eslint-disable-next-line react/prop-types
-function Vto2dEarrings({ targetTexture }) {
+function Vto2dEarrings({ targetTexture, optScale, optPosX, optPosY }) {
   return (
     <>
       <div className="container">
-        <Mapper targetTexture={targetTexture} />
+        <Mapper
+          targetTexture={targetTexture}
+          optScale={optScale}
+          optPosX={optPosX}
+          optPosY={optPosY}
+        />
       </div>
     </>
   )
