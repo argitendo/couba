@@ -16,6 +16,10 @@ import {
   drawScene
 } from './smoothing';
 import './vto.css';
+import ringsImage from './../data/RingImageData'
+import Image from 'next/image';
+
+const rings = ringsImage;
 
 // const wasmPath = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm";
 const wasmPath = "/wasm";
@@ -98,12 +102,54 @@ function FingerSelector({ selectedFinger, setSelectedFinger }) { // eslint-disab
 }
 
 /**React Component for Earring Selector */
-function RingSelector({ selectedFinger, setSelectedFinger }) { // eslint-disable-line react/prop-types
+/* function RingSelector({ selectedFinger, setSelectedFinger }) { // eslint-disable-line react/prop-types
   return (
     <div className='ring-selector'>
       <form>
         <div className="image-selector">
           <FingerSelector selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger} />
+        </div>
+      </form>
+    </div>
+  )
+} */
+
+function RingSelector({ setSelectedRing, selectedFinger, setSelectedFinger }) {
+  // eslint-disable-line react/prop-types
+  const handleImageChange = (event) => {
+    setSelectedRing(event.target.value);
+    const allChoices = document.getElementsByClassName('ring-image-container');
+    Array.from(allChoices).forEach(elm => elm.classList.remove('active'));
+    const currentChoice = event.target.labels[0].querySelector('.ring-image-container');
+    currentChoice.classList.add('active');
+  };
+
+  return (
+    <div>
+      <form>
+        <div className="grid grid-cols-4">
+          {rings.map((imgPath, idx) => (
+              <div key={imgPath}>
+                <input
+                  type="radio"
+                  name="ring"
+                  value={imgPath}
+                  id={`ring-0${idx}`}
+                  onChange={handleImageChange}
+                />
+                <label htmlFor={`ring-0${idx}`}>
+                  {/* <div className={'p-2 border-2 bg-white bg-opacity-30 ring-image-container' + (idx === 0 ? 'active' : '')}> */}
+                  <div className={'grid place-items-center p-4 border-2 bg-white bg-opacity-30 ring-image-container' + (idx === 0 ? ' active' : '')}>
+                    <Image className="ring-image" src={imgPath
+                    } width="100%" alt={imgPath} />
+                  </div>
+                </label>
+              </div>
+            ))
+          }
+          <div className='p-3 rounded-full bg-white bg-opacity-30'>
+            <FingerSelector selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger} />
+          </div>
         </div>
       </form>
     </div>
@@ -287,8 +333,8 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
                 </div>
               </>
             }
-            <div className="watermark">
-              Powered by <a href="http://tenstud.tv" target="_blank" rel="noopener noreferrer"><img src="/logo_couba.png" alt="logo-couba"/></a>
+            <div className="watermark text-white">
+              Powered by <a href="http://tenstud.tv" target="_blank" rel="noopener noreferrer"><img src="https://tenstud.tv/assets/img/favicon2/logo-tenstud.png" alt="logo-tenstud" /></a>
             </div>
           </div>
           <div className="canvas-container">
@@ -308,9 +354,9 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
             />
           </div>
         </div>
-        <div className="metric">
+        {/* <div className="metric">
           <RingSelector selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger}/>
-        </div>
+        </div> */}
         </>
       }
     </>
@@ -321,14 +367,14 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
 function Vto2dRing({ targetTexture, optScale, optPosX, optPosY }) {
   return (
     <div className="container">
-      <Mapper
-        targetTexture={targetTexture}
-        optScale={optScale}
-        optPosX={optPosX}
-        optPosY={optPosY}
-      />
+      <Mapper targetTexture={ targetTexture }/>
     </div>
   )
 }
 
 export default Vto2dRing
+export const RingSelects = ({
+  setSelectedRing,
+  selectedFinger,
+  setSelectedFinger
+}) => <RingSelector setSelectedRing={setSelectedRing} selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger} />

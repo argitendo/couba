@@ -6,12 +6,7 @@ import { motion } from 'framer-motion'
 function CategoriesButton({ selectedCategory, setSelectedCategory, categories }) {
 
    return (
-      <motion.div
-         className="flex md:overflow-hidden flex-wrap justify-between w-full"
-         initial={{ opacity: 0 }}
-         animate={{ opacity: 1 }}
-         transition={{ duration: 0.5 }}
-      >
+      <div className="flex md:overflow-hidden flex-wrap justify-around w-full px-36">
          {categories.map((category) => (
             <motion.button
                key={category}
@@ -27,7 +22,7 @@ function CategoriesButton({ selectedCategory, setSelectedCategory, categories })
                {category}
             </motion.button>
          ))}
-      </motion.div>
+      </div>
    )
 }
 

@@ -28,6 +28,11 @@ a:hover {
   text-decoration: underline;
 }
 
+main {
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
 p {
   font-family: 'Nunito Sans', sans-serif;
 }
@@ -36,14 +41,13 @@ html {
   scroll-behavior: smooth;
 }
 
-/* button:hover {
-  border-color: none;
-  border-width: 0;
+button:hover {
+  border-color: transparent;
 }
 button:focus,
 button:focus-visible {
   outline: none;
-} */
+}
 
 ::selection {
   @apply bg-mainColor-secondary text-mainColor-tertiary;
