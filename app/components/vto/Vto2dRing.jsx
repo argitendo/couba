@@ -4,10 +4,7 @@
 import { FilesetResolver, HandLandmarker, DrawingUtils } from '@mediapipe/tasks-vision';
 import { useState, useRef, useEffect } from 'react';
 import { config } from './config';
-import {
-  // isMobileOrTablet,
-  showingGuides
-} from './utils';
+import { showingGuides } from './utils';
 import { rigRing, threeInit, fingerList } from './solver2dRing';
 import {
   createShader,
@@ -17,17 +14,8 @@ import {
 } from './smoothing';
 import './vto.css';
 
-// const wasmPath = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm";
 const wasmPath = "/wasm";
-
-// const defaultCameraAspectRatio = 16 / 9;
 const defaultCameraAspectRatio = config.videoSize.width / config.videoSize.height;
-
-// if (isMobileOrTablet()) {
-//   config.videoSize.width = window.innerWidth;
-//   // config.videoSize.height = window.innerHeight;
-//   config.videoSize.height = window.innerWidth * defaultCameraAspectRatio;
-// }
 
 /** Create Hand Landmarker using Mediapipe Vision Tasks */
 const createHandLandmarker = async () => {
@@ -139,8 +127,6 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
   const [detector, setDetector] = useState(null);
   const [detecting, setDetecting] = useState(false);
   const [selectedFinger, setSelectedFinger] = useState('');
-  // const [selectedRing, setSelectedRing] = useState(rings[0]);
-  // const [selectedRing, /* setSelectedRing */] = useState(targetTexture);
   const [showInstruction, setShowInstruction] = useState(false);
   const [mediaStream, setMediaStream] = useState(null);
 
@@ -160,8 +146,6 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
       navigator.mediaDevices.getUserMedia({
         audio: false,
         video: {
-          // width: window.innerWidth,
-          // height: window.innerHeight,
           aspectRatio: (defaultCameraAspectRatio),
           frameRate: { max: 30 },
           facingMode: 'user',
@@ -255,7 +239,6 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
             className="video-container"
             style={{width: config.videoSize.width, height: config.videoSize.height}}
           >
-            {/* <h3>Input Media</h3> */}
             <video
               ref={videoRef}
               width={`${config.videoSize.width}`}
@@ -292,7 +275,6 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
             </div>
           </div>
           <div className="canvas-container">
-            {/* <h3>Guide Canvas</h3> */}
             <canvas
               ref={guideCanvasRef}
               width={`${config.videoSize.width}`}
@@ -300,7 +282,6 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
             />
           </div>
           <div className="three-canvas-container">
-            {/* <h3>3D Canvas</h3> */}
             <canvas
               ref={threeCanvasRef}
               width={`${config.videoSize.width}`}
