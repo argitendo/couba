@@ -114,47 +114,45 @@ function FingerSelector({ selectedFinger, setSelectedFinger }) { // eslint-disab
   )
 } */
 
-function RingSelector({ setSelectedRing, selectedFinger, setSelectedFinger }) {
-  // eslint-disable-line react/prop-types
-  const handleImageChange = (event) => {
-    setSelectedRing(event.target.value);
-    const allChoices = document.getElementsByClassName('ring-image-container');
-    Array.from(allChoices).forEach(elm => elm.classList.remove('active'));
-    const currentChoice = event.target.labels[0].querySelector('.ring-image-container');
+function RingSelector({ setSelectedRing }) {
+
+  const handleButtonClick = (imgPath, idx) => {
+    setSelectedRing(imgPath); // Update the selected ring in the parent component
+
+    // Remove active class from all choices
+    const allChoices = document.querySelectorAll('.image-button-container');
+    allChoices.forEach(elm => elm.classList.remove('active'));
+
+    // Add active class to the selected button
+    const currentChoice = document.getElementById(`image-btn-${idx}`);
     currentChoice.classList.add('active');
   };
 
   return (
-    <div>
-      <form>
-        <div className="grid grid-cols-4">
-          {rings.map((imgPath, idx) => (
-              <div key={imgPath}>
-                <input
-                  type="radio"
-                  name="ring"
-                  value={imgPath}
-                  id={`ring-0${idx}`}
-                  onChange={handleImageChange}
-                />
-                <label htmlFor={`ring-0${idx}`}>
-                  {/* <div className={'p-2 border-2 bg-white bg-opacity-30 ring-image-container' + (idx === 0 ? 'active' : '')}> */}
-                  <div className={'grid place-items-center p-4 border-2 bg-white bg-opacity-30 ring-image-container' + (idx === 0 ? ' active' : '')}>
-                    <Image className="ring-image" src={imgPath
-                    } width="100%" alt={imgPath} />
-                  </div>
-                </label>
-              </div>
-            ))
-          }
-          <div className='p-3 rounded-full bg-white bg-opacity-30'>
-            <FingerSelector selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger} />
-          </div>
+    <div className="grid grid-cols-4 gap-4">
+      {rings.map((imgPath, idx) => (
+        <div key={imgPath}>
+          <button
+            type="button"
+            id={`image-btn-${idx}`}
+            className="image-button-container rounded-3xl p-4 border-2 border-gray-300 bg-white hover:border-gray-500 bg-opacity-30"
+            onClick={() => handleButtonClick(imgPath, idx)}
+          >
+            <Image
+              className="image-button hover:scale-110 transition-all"
+              src={imgPath}
+              width="150"
+              height="150"
+              alt={`Ring ${idx + 1}`}
+            />
+          </button>
         </div>
-      </form>
+      ))}
     </div>
-  )
+  );
 }
+
+
 
 /**React Component for Earring Selector Mobile */
 function RingSelectorMobile({ selectedFinger, setSelectedFinger }) { // eslint-disable-line react/prop-types
@@ -296,67 +294,67 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
       {!detector && <p className="loading">Loading...</p>}
       {detector &&
         <>
-        <div className="canvas-wrapper">
-          <div
-            className="video-container"
-            style={{width: config.videoSize.width, height: config.videoSize.height}}
-          >
-            {/* <h3>Input Media</h3> */}
-            <video
-              ref={videoRef}
-              width={`${config.videoSize.width}`}
-              height={`${config.videoSize.height}`}
-            />
-            <canvas
-              className='smoothing-canvas'
-              ref={smoothingCanvasRef}
-              width={`${config.videoSize.width}`}
-              height={`${config.videoSize.height}`}
-            />
-            <div className={"instruction " + (showInstruction ? "show" : "")}>
-              <div className="instruction-item">
-                <p className="instruction-text">
-                  Show your right / left back of the hand closer to the camera
-                </p>
-                <img className="instruction-image" src="/ring-instruction.png" alt="Instruction" />
+          <div className="canvas-wrapper">
+            <div
+              className="video-container"
+              style={{ width: config.videoSize.width, height: config.videoSize.height }}
+            >
+              {/* <h3>Input Media</h3> */}
+              <video
+                ref={videoRef}
+                width={`${config.videoSize.width}`}
+                height={`${config.videoSize.height}`}
+              />
+              <canvas
+                className='smoothing-canvas'
+                ref={smoothingCanvasRef}
+                width={`${config.videoSize.width}`}
+                height={`${config.videoSize.height}`}
+              />
+              <div className={"instruction " + (showInstruction ? "show" : "")}>
+                <div className="instruction-item">
+                  <p className="instruction-text">
+                    Show your right / left back of the hand closer to the camera
+                  </p>
+                  <img className="instruction-image" src="/ring-instruction.png" alt="Instruction" />
+                </div>
+              </div>
+              {detecting && <RingSelectorMobile selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger} />}
+              {!detecting &&
+                <>
+                  <div className="overlay" />
+                  <div className="init-instruction">Show your right / left back of the hand closer to the camera</div>
+                  <div className="detection-button-container">
+                    <button className='detection-button' type="button" onClick={handleDetect}>
+                      {!detecting && 'Start Try-On'}
+                    </button>
+                  </div>
+                </>
+              }
+              <div className="watermark text-white">
+                Powered by <a href="http://tenstud.tv" target="_blank" rel="noopener noreferrer"><img src="https://tenstud.tv/assets/img/favicon2/logo-tenstud.png" alt="logo-tenstud" /></a>
               </div>
             </div>
-            { detecting && <RingSelectorMobile selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger} />}
-            { !detecting &&
-              <>
-                <div className="overlay" />
-                <div className="init-instruction">Show your right / left back of the hand closer to the camera</div>
-                <div className="detection-button-container">
-                  <button className='detection-button' type="button" onClick={handleDetect}>
-                    { !detecting && 'Start Try-On' }
-                  </button>
-                </div>
-              </>
-            }
-            <div className="watermark text-white">
-              Powered by <a href="http://tenstud.tv" target="_blank" rel="noopener noreferrer"><img src="https://tenstud.tv/assets/img/favicon2/logo-tenstud.png" alt="logo-tenstud" /></a>
+            <div className="canvas-container">
+              {/* <h3>Guide Canvas</h3> */}
+              <canvas
+                ref={guideCanvasRef}
+                width={`${config.videoSize.width}`}
+                height={`${config.videoSize.height}`}
+              />
+            </div>
+            <div className="three-canvas-container">
+              {/* <h3>3D Canvas</h3> */}
+              <canvas
+                ref={threeCanvasRef}
+                width={`${config.videoSize.width}`}
+                height={`${config.videoSize.height}`}
+              />
             </div>
           </div>
-          <div className="canvas-container">
-            {/* <h3>Guide Canvas</h3> */}
-            <canvas
-              ref={guideCanvasRef}
-              width={`${config.videoSize.width}`}
-              height={`${config.videoSize.height}`}
-            />
-          </div>
-          <div className="three-canvas-container">
-            {/* <h3>3D Canvas</h3> */}
-            <canvas
-              ref={threeCanvasRef}
-              width={`${config.videoSize.width}`}
-              height={`${config.videoSize.height}`}
-            />
-          </div>
-        </div>
-        {/* <div className="metric">
-          <RingSelector selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger}/>
-        </div> */}
+          {/* <div className="metric">
+            <RingSelector selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger} />
+          </div> */}
         </>
       }
     </>
@@ -373,8 +371,4 @@ function Vto2dRing({ targetTexture, optScale, optPosX, optPosY }) {
 }
 
 export default Vto2dRing
-export const RingSelects = ({
-  setSelectedRing,
-  selectedFinger,
-  setSelectedFinger
-}) => <RingSelector setSelectedRing={setSelectedRing} selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger} />
+export const RingSelectors = () => <RingSelector />

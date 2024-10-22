@@ -1,5 +1,6 @@
 import Categories from '../buttons/subButtons/CategoriesButton'
 import Demo from '@/app/components/demoPage/demo'
+import SkeletonsDemo from '../skeletons'
 import { useState, useEffect } from 'react'
 import { Layout } from '../layouts'
 import '@/app/app.css'
@@ -33,9 +34,7 @@ export default function index() {
           />
         </header>
         {isLoading ? (
-          <div className='flex justify-center w-full h-16'>
-            loading
-          </div>
+          <SkeletonsDemo />
         ) : (
           <Demo categories={selectedCategory} />
         )

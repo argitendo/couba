@@ -6,12 +6,12 @@ import { motion } from 'framer-motion'
 function CategoriesButton({ selectedCategory, setSelectedCategory, categories }) {
 
    return (
-      <div className="flex md:overflow-hidden flex-wrap justify-around w-full px-36">
+      <div className="flex md:overflow-hidden flex-wrap justify-around w-full px-0 md:px-36">
          {categories.map((category) => (
             <motion.button
                key={category}
                onClick={() => setSelectedCategory(category)}
-               className={`text-center justify-center font-medium text-base md:text-lg xl:text-2xl mx-4 xl:mx-8 p-4 rounded-sm
+               className={`text-center justify-center font-medium text-base md:text-lg xl:text-2xl mx-2 xl:mx-8 p-4 rounded-sm
                   ${selectedCategory === category
                   ? 'text-mainColor-primary border-4 border-b-mainColor-primary'
                   : 'text-gray-500'
