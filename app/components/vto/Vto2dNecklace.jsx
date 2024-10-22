@@ -29,6 +29,11 @@ import {
   drawScene
 } from './smoothing';
 import './vto.css'
+import NecklaceImageData from '../data/NecklaceImageData';
+import Image from 'next/image';
+import { Button } from '../buttons';
+
+const necklaces = NecklaceImageData;
 
 // const wasmPath = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm";
 const wasmPath = "/wasm";
@@ -101,6 +106,40 @@ const tigaDef = {
   camera: null,
   controls: null,
   ikSolver: null
+}
+
+function NecklaceSelector(props) {
+  const { selectedNecklace, setSelectedNecklace, images } = props; // eslint-disable-line
+
+  const handleImageChange = (event) => {
+    setSelectedNecklace(event.target.value);
+    const allChoices = document.getElementsByClassName('necklace-image-container');
+    Array.from(allChoices).forEach(elm => elm.classList.remove('active'));
+    const currentChoice = event.target.labels[0].querySelector('.necklace-image-container');
+    currentChoice.classList.add('active');
+  };
+
+  return (
+    <div className="grid grid-cols-4 gap-4">
+      {images.map((imgPath, idx) => (
+        <div key={imgPath}>
+          <button 
+            type="button"
+            id={`necklace-0${idx}`}
+            className='image-button-container rounded-3xl p-4 border-2 border-gray-300 bg-white hover:border-gray-500 bg-opacity-30'
+            onClick={handleImageChange}
+          >
+            <Image
+              className="necklace-image"
+              src={imgPath}
+              alt={imgPath} 
+              width="100%" 
+            />
+          </button>
+        </div>
+      ))}
+    </div>
+  )
 }
 
 // eslint-disable-next-line react/prop-types
@@ -258,63 +297,63 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
       {!poseDetector && <p className="loading">Loading...</p>}
       {poseDetector &&
         <>
-        <div className="canvas-wrapper">
-          <div
-            className="video-container"
-            style={{width: config.videoSize.width, height: config.videoSize.height}}
-          >
-            {/* <h3>Input Media</h3> */}
-            <video
-              ref={videoRef}
-              width={`${config.videoSize.width}`}
-              height={`${config.videoSize.height}`}
-            />
-            <canvas
-              className='smoothing-canvas'
-              ref={smoothingCanvasRef}
-              width={`${config.videoSize.width}`}
-              height={`${config.videoSize.height}`}
-            />
-            <div className={"instruction " + (showInstruction ? "show" : "")}>
-              <div className="instruction-item">
-                <p className="instruction-text">
-                Face forward straight to the camera and ensure your neck is exposed
-                </p>
-                <img className="instruction-image" src='/desktop-face.png' alt="Instruction" />
+          <div className="canvas-wrapper">
+            <div
+              className="video-container"
+              style={{ width: config.videoSize.width, height: config.videoSize.height }}
+            >
+              {/* <h3>Input Media</h3> */}
+              <video
+                ref={videoRef}
+                width={`${config.videoSize.width}`}
+                height={`${config.videoSize.height}`}
+              />
+              <canvas
+                className='smoothing-canvas'
+                ref={smoothingCanvasRef}
+                width={`${config.videoSize.width}`}
+                height={`${config.videoSize.height}`}
+              />
+              <div className={"instruction " + (showInstruction ? "show" : "")}>
+                <div className="instruction-item">
+                  <p className="instruction-text">
+                    Face forward straight to the camera and ensure your neck is exposed
+                  </p>
+                  <img className="instruction-image" src='/desktop-face.png' alt="Instruction" />
+                </div>
+              </div>
+              {!detecting &&
+                <>
+                  <div className="overlay" />
+                  <div className="init-instruction">Face forward straight to the camera and ensure your neck is exposed</div>
+                  <div className="detection-button-container">
+                    <Button.MainVariantsGreen onClicks={handleDetect}>
+                      {!detecting && 'Start Try-On'}
+                    </Button.MainVariantsGreen>
+                  </div>
+                </>
+              }
+              <div className="watermark">
+                Powered by <a href="http://tenstud.tv" target="_blank" rel="noopener noreferrer"><img src="/logo_couba.png" alt="logo-couba" /></a>
               </div>
             </div>
-            { !detecting &&
-              <>
-                <div className="overlay" />
-                <div className="init-instruction">Face forward straight to the camera and ensure your neck is exposed</div>
-                <div className="detection-button-container">
-                  <button className='detection-button' type="button" onClick={handleDetect}>
-                    { !detecting && 'Start Try-On' }
-                  </button>
-                </div>
-              </>
-            }
-            <div className="watermark">
-              Powered by <a href="http://tenstud.tv" target="_blank" rel="noopener noreferrer"><img src="/logo_couba.png" alt="logo-couba"/></a>
+            <div className="canvas-container">
+              {/* <h3>Guide Canvas</h3> */}
+              <canvas
+                ref={guideCanvasRef}
+                width={`${config.videoSize.width}`}
+                height={`${config.videoSize.height}`}
+              />
+            </div>
+            <div className="three-canvas-container">
+              {/* <h3>3D Canvas</h3> */}
+              <canvas
+                ref={threeCanvasRef}
+                width={`${config.videoSize.width}`}
+                height={`${config.videoSize.height}`}
+              />
             </div>
           </div>
-          <div className="canvas-container">
-            {/* <h3>Guide Canvas</h3> */}
-            <canvas
-              ref={guideCanvasRef}
-              width={`${config.videoSize.width}`}
-              height={`${config.videoSize.height}`}
-            />
-          </div>
-          <div className="three-canvas-container">
-            {/* <h3>3D Canvas</h3> */}
-            <canvas
-              ref={threeCanvasRef}
-              width={`${config.videoSize.width}`}
-              height={`${config.videoSize.height}`}
-            />
-          </div>
-        </div>
         </>
       }
     </>
@@ -338,3 +377,4 @@ function Vto2dNecklace({ targetTexture, optScale, optPosX, optPosY }) {
 }
 
 export default Vto2dNecklace
+export const NecklaceSelectors = ({images}) => <NecklaceSelector images={images} />;

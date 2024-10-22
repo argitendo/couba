@@ -18,6 +18,7 @@ import {
 import './vto.css';
 import ringsImage from './../data/RingImageData'
 import Image from 'next/image';
+import { Button } from '../buttons';
 
 const rings = ringsImage;
 
@@ -114,23 +115,19 @@ function FingerSelector({ selectedFinger, setSelectedFinger }) { // eslint-disab
   )
 } */
 
-function RingSelector({ setSelectedRing }) {
+function RingSelector({ setSelectedRing, selectedFinger, setSelectedFinger, imageList }) {
 
-  const handleButtonClick = (imgPath, idx) => {
-    setSelectedRing(imgPath); // Update the selected ring in the parent component
-
-    // Remove active class from all choices
-    const allChoices = document.querySelectorAll('.image-button-container');
-    allChoices.forEach(elm => elm.classList.remove('active'));
-
-    // Add active class to the selected button
-    const currentChoice = document.getElementById(`image-btn-${idx}`);
+  const handleButtonClick = (event) => {
+    setSelectedRing(event.target.value);
+    const allChoices = document.getElementsByClassName('ring-image-container');
+    Array.from(allChoices).forEach(elm => elm.classList.remove('active'));
+    const currentChoice = event.target.labels[0].querySelector('.ring-image-container');
     currentChoice.classList.add('active');
-  };
+ };
 
   return (
     <div className="grid grid-cols-4 gap-4">
-      {rings.map((imgPath, idx) => (
+      {imageList.map((imgPath, idx) => (
         <div key={imgPath}>
           <button
             type="button"
@@ -148,6 +145,7 @@ function RingSelector({ setSelectedRing }) {
           </button>
         </div>
       ))}
+      <FingerSelector selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger} />
     </div>
   );
 }
@@ -293,7 +291,7 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
     <>
       {!detector && <p className="loading">Loading...</p>}
       {detector &&
-        <>
+        <div className='flex'>
           <div className="canvas-wrapper">
             <div
               className="video-container"
@@ -325,9 +323,9 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
                   <div className="overlay" />
                   <div className="init-instruction">Show your right / left back of the hand closer to the camera</div>
                   <div className="detection-button-container">
-                    <button className='detection-button' type="button" onClick={handleDetect}>
+                    <Button.MainVariantsGreen onClicks={handleDetect}>
                       {!detecting && 'Start Try-On'}
-                    </button>
+                    </Button.MainVariantsGreen>
                   </div>
                 </>
               }
@@ -355,7 +353,7 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
           {/* <div className="metric">
             <RingSelector selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger} />
           </div> */}
-        </>
+        </div>
       }
     </>
   )
@@ -365,10 +363,15 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
 function Vto2dRing({ targetTexture, optScale, optPosX, optPosY }) {
   return (
     <div className="container">
-      <Mapper targetTexture={ targetTexture }/>
+      <Mapper targetTexture={targetTexture} />
     </div>
   )
 }
 
 export default Vto2dRing
-export const RingSelectors = () => <RingSelector />
+export const RingSelectors = ({
+  setSelectedRing,
+  selectedFinger,
+  setSelectedFinger,
+  images
+}) => <RingSelector setSelectedRing={setSelectedRing} selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger} imageList={images} />
