@@ -216,3 +216,25 @@
     object-fit: cover;
   }
 }
+
+.bubbles {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: absolute;
+  right: 20px;
+  height: 200px;
+  top: calc(50% - 100px);
+  z-index: 11;
+}
+
+.bubble {
+  background-color: rgba(0,0,0,.5);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
