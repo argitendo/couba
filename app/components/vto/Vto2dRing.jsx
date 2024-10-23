@@ -209,7 +209,7 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
             handLandmarks.update(results);
             handWorldLandmarks.update(results);
             if (!sceneVisibility) tc.scene.visible = true;
-            rigRing(tc.model, handLandmarks, handWorldLandmarks, tc.camera, selectedFinger, setShowInstruction, optScale, optPosX, optPosY);
+            rigRing(tc.model, handLandmarks, tc.camera, selectedFinger, setShowInstruction, optScale, optPosX, optPosY);
           } else {
             tc.scene.visible = false;
             setShowInstruction(true);

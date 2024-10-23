@@ -130,7 +130,7 @@ function getPixel(landmark) {
 export const degToRad = (degree) => { return degree / 180 * Math.PI };
 export const radToDeg = (radian) => { return radian / Math.PI * 180 };
 
-export function rigRing(model, handLandmarks, handWorldLandmarks, camera, fingerName, setInstruction, optScale, optPosX, optPosY) {
+export function rigRing(model, handLandmarks, camera, fingerName, setInstruction, optScale, optPosX, optPosY) {
   if (!fingerList.includes(fingerName)) fingerName = 'ring';
 
   const ring = model.ring.getObjectByName('ring');

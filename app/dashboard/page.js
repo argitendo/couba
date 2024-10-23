@@ -384,7 +384,7 @@ function ProductList({ userProfile, products, handlePublish, handleAddProduct })
 }
 
 function App() {
-  const [user, /* loading */, /* error */] = useAuthState(auth);
+  const [user, userLoading , /* error */] = useAuthState(auth);
   const [userProfile, setUserProfile] = useState(null);
   const [products, setProducts] = useState([]);
   const [addingProduct, setAddingProduct] = useState(false);
@@ -591,7 +591,7 @@ function App() {
         data-client-key="SB-Mid-client-bwUG-b2rqueNSohP" async
       ></Script>
 
-      <GlobalLoading show={isLoading} />
+      <GlobalLoading show={(userLoading || isLoading)} />
       <h1>Coba-Couba</h1>
       <div className="card">
         {!user && <button onClick={handleLogin}>Login with Google</button>}
