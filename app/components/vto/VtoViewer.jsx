@@ -81,10 +81,10 @@ function VtoViewer({ category, targetTexture }) {
   };
 
   const getVto = () => {
-    if (category === 'ring') return <Vto2dRing targetTexture={targetTexture} {...options} />;
-    if (category === 'earring') return <Vto2dEarrings targetTexture={targetTexture} {...options} />;
-    if (category === 'necklace') return <Vto2dNecklace targetTexture={targetTexture} {...options} />;
-    if (category === 'bracelet') return <Vto2dBracelet targetTexture={targetTexture} {...options} />;
+    if (category === 'Cincin') return <Vto2dRing targetTexture={targetTexture} {...options} />;
+    if (category === 'Gelang') return <Vto2dBracelet targetTexture={targetTexture} {...options} />;
+    if (category === 'Anting') return <Vto2dEarrings targetTexture={targetTexture} {...options} />;
+    if (category === 'Kalung') return <Vto2dNecklace targetTexture={targetTexture} {...options} />;
     return <div>Not Implemented</div>;
   }
 

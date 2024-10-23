@@ -13,10 +13,10 @@ function VtoSelectorViewer({ category }) {
   const [selectedFinger, setSelectedFinger] = useState('');
 
   const getSelectVto = () => {
-    if (category === 'ring') return <RingSelectors images={ringsImage} selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger} />;
-    if (category === 'earring') return <EarringSelectors images={earringImage} />;
-    if (category === 'necklace') return <NecklaceSelectors images={NecklaceImage} />;
-    if (category === 'bracelet') return <>Bracelet Not Implemented</>;
+    if (category === 'Cincin') return <RingSelectors images={ringsImage} selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger} />;
+    if (category === 'Gelang') return <>Bracelet Not Implemented</>;
+    if (category === 'Anting') return <EarringSelectors images={earringImage} />;
+    if (category === 'Kalung') return <NecklaceSelectors images={NecklaceImage} />;
     return <div>Not Implemented</div>;
   }
 

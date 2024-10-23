@@ -96,10 +96,19 @@ function FingerSelector({ selectedFinger, setSelectedFinger }) { // eslint-disab
   }
 
   return (
-    <button className="finger-switch-button" onClick={handleClick} >
-      <img src='/finger-switch.svg' alt="Finger Switch Icon" title="Switch Finger" width={65} />
+    <button
+      className="finger-switch-button flex justify-center p-4 rounded-3xl border-2 border-gray-300 bg-white hover:border-gray-500 aspect-square"
+      onClick={handleClick}
+    >
+      <img
+        src='/finger-switch.svg'
+        alt="Finger Switch Icon"
+        title="Switch Finger"
+        className="w-full h-full p-4"
+      />
     </button>
-  )
+  );
+
 }
 
 /**React Component for Earring Selector */
@@ -123,7 +132,7 @@ function RingSelector({ setSelectedRing, selectedFinger, setSelectedFinger, imag
     Array.from(allChoices).forEach(elm => elm.classList.remove('active'));
     const currentChoice = event.target.labels[0].querySelector('.ring-image-container');
     currentChoice.classList.add('active');
- };
+  };
 
   return (
     <div className="grid grid-cols-4 gap-4">

@@ -6,9 +6,9 @@ import { Layout } from '../layouts'
 import '@/app/app.css'
 
 export default function index() {
-  const [selectedCategory, setSelectedCategory] = useState('ring')
+  const [selectedCategory, setSelectedCategory] = useState('Cincin')
   const [isLoading, setLoading] = useState(false)
-  const categories = ['ring', 'earring', 'necklace', 'bracelet']
+  const categories = ['Cincin', 'Gelang', 'Anting', 'Kalung']
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -20,7 +20,7 @@ export default function index() {
 
     setTimeout(() => {
       setLoading(false)
-    }, 700)
+    }, 200)
   };
 
   return (
