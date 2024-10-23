@@ -20,6 +20,8 @@ import { rigNecklace } from './solver2dNecklace';
 import { poseLandmarker } from './utils';
 import './vto.css';
 
+const categories = ['bracelet', 'earring', 'necklace', 'ring'];
+const fingerList = ['index', 'middle', 'ring', 'pinky'];
 const defaultCameraAspectRatio = config.videoSize.width / config.videoSize.height;
 
 function Slider({ id, labels, defaultValue, min, max, step, onChange }) {
@@ -46,6 +48,7 @@ function Slider({ id, labels, defaultValue, min, max, step, onChange }) {
 }
 
 function Settings({ optScale, setOptScale, optPosX, setOptPosX, optPosY, setOptPosY }) {
+
   return (
     <div className="setting-container">
       <Slider id="pos-x-range" labels={['Position X']} defaultValue={optPosX} min={-0.1} max={0.1} step={0.01} onChange={(e) => {setOptPosX(parseFloat(e.target.value));}} />
@@ -55,7 +58,7 @@ function Settings({ optScale, setOptScale, optPosX, setOptPosX, optPosY, setOptP
   )
 }
 
-function Bubbles({ options, optionSets, zoomLevel, setZoomLevel }) {
+function Bubbles({ options, optionSets, zoomLevel, setZoomLevel, category, selectedFinger, setSelectedFinger }) {
   const [showSettings, setShowSettings] = useState(false);
   const toggleSettings = () => { setShowSettings(!showSettings) };
   const increaseZoom = () => {
@@ -64,6 +67,10 @@ function Bubbles({ options, optionSets, zoomLevel, setZoomLevel }) {
   const decreaseZoom = () => {
     if (zoomLevel > 1) setZoomLevel(zoomLevel - 0.1);
   };
+  const changeFinger = () => {
+    const idx = (fingerList.indexOf(selectedFinger) + 1) % 4;
+    setSelectedFinger(fingerList[idx]);
+  }
 
   return (
     <>
@@ -72,6 +79,10 @@ function Bubbles({ options, optionSets, zoomLevel, setZoomLevel }) {
         <div className="bubble" onClick={increaseZoom}>+</div>
         <div className="bubble" onClick={decreaseZoom}>-</div>
         <div className="bubble">C</div>
+        { (category === 'ring') &&
+        <div className="bubble" onClick={changeFinger}>
+          <img src='/finger-switch.svg' alt="Finger Switch Icon" title="Switch Finger" width={20} />
+        </div>}
       </div>
       { showSettings && <Settings show={showSettings} {...options} {...optionSets} />}
     </>
@@ -172,6 +183,7 @@ function VtoViewer({ category, targetTexture }) {
   const [showInstruction, setShowInstruction] = useState(false);
   const [mediaStream, setMediaStream] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(1);
+  const [selectedFinger, setSelectedFinger] = useState('ring');
 
   const handleDetect = () => {
     (!videoRef.current.srcObject) ? alert('Need to select camera first!') : setDetecting(!detecting);
@@ -358,7 +370,7 @@ function VtoViewer({ category, targetTexture }) {
                 handLandmarks.update(results);
                 handWorldLandmarks.update(results);
                 if (!sceneVisibility) tc.scene.visible = true;
-                rigRing(tc.model, handLandmarks, tc.camera, 'ring', setShowInstruction, optScale, optPosX, optPosY);
+                rigRing(tc.model, handLandmarks, tc.camera, selectedFinger, setShowInstruction, optScale, optPosX, optPosY);
               } else {
                 tc.scene.visible = false;
                 setShowInstruction(true);
@@ -413,7 +425,8 @@ function VtoViewer({ category, targetTexture }) {
 
     // return clean up function for animation frame
     return () => { window.cancelAnimationFrame(rafId.current) };
-  }, [detecting, optScale, optPosX, optPosY]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [detecting, optScale, optPosX, optPosY, selectedFinger]);
 
   return (
     <div className="preview-container" style={{width: config.videoSize.width}}>
@@ -474,12 +487,15 @@ function VtoViewer({ category, targetTexture }) {
             </>
           }
         </>
-        <Bubbles
+        {detecting && <Bubbles
           options={options}
           optionSets={optionSets}
           zoomLevel={zoomLevel}
           setZoomLevel={setZoomLevel}
-        />
+          category={category}
+          selectedFinger={selectedFinger}
+          setSelectedFinger={setSelectedFinger}
+        />}
       </div>
     </div>
   )
