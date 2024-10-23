@@ -252,7 +252,7 @@ export function checkFaceSize(model, faceLandmarks, sl, swl, setShowInstruction)
 const prevOffset = { x: 0, y: 0 };
 const alphaOffset = 0.25; // isMobileOrTablet() ? 0.1 : 0.25;
 
-export function rigNecklacePosition2(model, faceLandmarks, sl, swl, camera, ctx, optScale, optPosX, optPosY) {
+export function rigNecklacePosition2(model, faceLandmarks, sl, swl, camera, /* ctx, */ optScale, optPosX, optPosY) {
   // const head = model.getObjectByName('head');
   const necklace = model.neck.getObjectByName('necklace');
 
@@ -314,21 +314,21 @@ export function rigNecklacePosition2(model, faceLandmarks, sl, swl, camera, ctx,
   necklace.position.lerp(newPos, config.lerp.value);
 
   // draw rotated nose
-  const drawTarget = {
-    x: midShoulder.x + offset.x,
-    y: midShoulder.y + offset.y,
-    z: 0
-  };
-  ctx.save();
-  ctx.fillStyle = 'yellow';
-  ctx.beginPath();
-  ctx.arc(
-    drawTarget.x * config.videoSize.width,
-    drawTarget.y * config.videoSize.height,
-    5, 0, Math.PI * 2
-  );
-  ctx.fill();
-  ctx.restore();
+  // const drawTarget = {
+  //   x: midShoulder.x + offset.x,
+  //   y: midShoulder.y + offset.y,
+  //   z: 0
+  // };
+  // ctx.save();
+  // ctx.fillStyle = 'yellow';
+  // ctx.beginPath();
+  // ctx.arc(
+  //   drawTarget.x * config.videoSize.width,
+  //   drawTarget.y * config.videoSize.height,
+  //   5, 0, Math.PI * 2
+  // );
+  // ctx.fill();
+  // ctx.restore();
 }
 
 export function rigNecklaceRotation(model, poseLandmarks) {
@@ -352,8 +352,8 @@ export function rigNecklaceRotation(model, poseLandmarks) {
   uOffset.value = new THREE.Vector2(weight * 0.25, 0.0);
 }
 
-export function rigNecklace(model, faceLandmarks, sl, swl, camera, ctx, setShowInstruction, optScale, optPosX, optPosY) {
+export function rigNecklace(model, faceLandmarks, sl, swl, camera, /* ctx, */ setShowInstruction, optScale, optPosX, optPosY) {
   rigNecklaceRotation(model, swl);
-  rigNecklacePosition2(model, faceLandmarks, sl, swl, camera, ctx, optScale, optPosX, optPosY);
+  rigNecklacePosition2(model, faceLandmarks, sl, swl, camera, /* ctx, */ optScale, optPosX, optPosY);
   checkFaceSize(model, faceLandmarks, sl, swl, setShowInstruction);
 }

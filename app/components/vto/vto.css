@@ -78,10 +78,10 @@
 .init-instruction {
   position: absolute;
   width: 100%;
-  top: 20%;
-  color: #FFF;
+  top: 10%;
   font-size: 1.2em;
   text-align: center;
+  padding: 0 12px;
 }
 .detection-button-container {
   position: absolute;
@@ -95,16 +95,15 @@
 }
 .detection-button {
   cursor: pointer;
-  background-color: #FFF;
-  color: #101010;
-  /* border-radius: 4px; */
+  background-color: #CFFF5E;
+  color: #1B1F3A;
+  border-radius: 40px;
   min-height: 30px;
-  padding: 0 1em;
   box-shadow: none;
   border: none;
   z-index: 10;
   font-size: 1.1em;
-  padding: 16px 32px;
+  padding: 12px 40px;
 }
 
 .watermark {
@@ -134,14 +133,16 @@
 .video-container video {
   display: inline;
   background-color: rgb(37, 37, 37);
+  transform-origin: center center;
   transform: rotateY(180deg);
+  transition: all 1s ease;
 }
 
 .smoothing-canvas {
   display: inline;
   position: absolute;
-  transform: rotateY(180deg) rotateX(180deg);
-  border-radius: 10px;
+  transform: rotateY(180deg);
+  transition: all 1s ease;
 }
 
 .canvas-container canvas {
@@ -206,7 +207,7 @@
   opacity: 1;
 }
 .instruction-text {
-  font-size: 1.2em;
+  font-size: 1.1em;
   padding: 2em 2em 1em;
   margin: 0;
   text-align: center;
@@ -214,9 +215,35 @@
 .instruction-image {
   height: 300px;
   transition: 0.2s;
+  padding: 50px 0;
 }
 @media (max-width: 986px) {
   .instruction-image {
     object-fit: cover;
   }
+}
+
+.bubbles {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: absolute;
+  right: 20px;
+  height: 200px;
+  top: calc(50% - 100px);
+  z-index: 11;
+}
+
+.bubble {
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
