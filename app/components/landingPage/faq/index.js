@@ -32,7 +32,7 @@ export default function SeventhPages() {
 
   return (
     <section id='faq-screen' className='relative'>
-      <Image src={Backgrounds} alt='backgrounds' className='-z-20 absolute bg-repeat w-screen min-h-full' />
+      {/* <Image src={Backgrounds} alt='backgrounds' className='-z-20 absolute bg-repeat w-screen min-h-full' /> */}
       <section className='pt-12 pb-16 xl:w-2/3 mx-4 xl:mx-auto'>
         <section className='flex flex-col text-white mx-auto px-4 py-20 text-center text-4xl font-black font-serif-archivo'>
           <h1 className='mb-[4.5rem] text-white'>Tanya - tanya</h1>

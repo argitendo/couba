@@ -67,7 +67,7 @@ export function SecondaryCard({
               className={`aspect-square object-cover ${paddingImages} rounded-tr-3xl rounded-tl-3xl border-b-2 border-mainColor-tertiary bg-mainColor-primary`}
             />
           </section>
-          <section className={`flex flex-col xl:flex text-center font-medium font-serif-archivo text-2xl ${heightCards} mx-2`}> {title} </section>
+          <section className={`flex flex-col xl:flex text-center font-medium font-serif-archivo text-md ${heightCards} mx-2`}> {title} </section>
           <section>
             {children}
           </section>

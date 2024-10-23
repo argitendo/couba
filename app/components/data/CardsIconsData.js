@@ -29,7 +29,7 @@ const iconData = [
    },
    {
       id: 5,
-      icon: 'Skin Analysist',
+      icon: 'Skin Analysis',
       url: iconSkin
    },
    {
