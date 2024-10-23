@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif; */
+  font-family: 'Nunito Sans', sans-serif, 'Archivo', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+h1 {
+  font-family: 'Archivo', sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+main {
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+p {
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+button:hover {
+  border-color: transparent;
+}
+button:focus,
+button:focus-visible {
+  outline: none;
+}
+
+::selection {
+  @apply bg-mainColor-secondary text-mainColor-tertiary;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  border-radius: 10px;
+  overflow: auto;
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #34d399;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+::-webkit-scrollbar-track {
+  background: none;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+::placeholder {
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+.font-sans-nutito {
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+.font-serif-archivo {
+  font-family: 'Archivo', sans-serif;
+}
+
+.font-sans-roboto {
+  font-family: 'Roboto', sans-serif;
+}
+
+.mobile-nav {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+}
+
+.form-background-image {
+  background-image: url('../public/assets/backgrounds/backgrounds_2.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.contact-background-image {
+  background-image: url('../public/assets/backgrounds/backgrounds_3.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.button-main {
+  background: radial-gradient(ellipse at top left, #CFFF5E, #CFFF5E, #FFFFFF, #6663FD, #6663FD, #6663FD) repeat;
+  background-size: 180% 250%;
+  background-position: 100% 100%;
+  transition: all .3s ease;
+}
+
+.button-main:hover {
+  background-position: 40% 0;
+  color: #1B1F3A;
+}
+
+.button-secondary {
+  color: #1B1F3A;
+  background: radial-gradient(ellipse at top left, #CFFF5E, #CFFF5E, #CFFF5E, #FFFFFF, #6663FD, #6663FD) repeat;
+  background-size: 200% 250%;
+  background-position: 0 0;
+  transition: all .3s ease;
+}
+
+.button-secondary:hover {
+  /* background-position: 70% 100%; */
+  background-position: 90% 0;
+  color: #1B1F3A;
+}
+
+.button-variant {
+  background: linear-gradient(90deg, #CFFF5E, #CFFF5E, #FFFFFF, #6663FD) no-repeat;
+  background-size: 200% 200%;
+  background-position: 0 100%;
+  transition: all .3s ease;
+}
+
+.button-variant:hover {
+  background-position: 100% 0;
+  color: #1B1F3A;
+}
+
+.button-variant-secondary {
+  color: #1B1F3A;
+  background: radial-gradient(ellipse at top left, #CFFF5E, #FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF, #6663FD) repeat;
+  background-size: 200% 250%;
+  background-position: 70% 0;
+  transition: all .3s ease;
+}
+
+.button-variant-secondary:hover {
+  background: radial-gradient(ellipse at top left, #CFFF5E, #FFFFFF, #6663FD) repeat;
+  background-size: 100% 150%;
+  background-position: 50% 0;
+}
+
+
+@media (max-width: 1280px) {
+  .custom-sticky {
+    position: sticky;
+    top: 0;
+  }
+}
+
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-gradientColor-primary-start to-gradientColor-primary-end;
+}

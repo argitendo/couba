@@ -13,6 +13,10 @@ import {
   drawScene
 } from './smoothing';
 import './vto.css';
+import ringsImage from './../data/RingImageData'
+import Image from 'next/image';
+
+const rings = ringsImage;
 
 const wasmPath = "/wasm";
 const defaultCameraAspectRatio = config.videoSize.width / config.videoSize.height;
@@ -86,7 +90,7 @@ function FingerSelector({ selectedFinger, setSelectedFinger }) { // eslint-disab
 }
 
 /**React Component for Earring Selector */
-function RingSelector({ selectedFinger, setSelectedFinger }) { // eslint-disable-line react/prop-types
+/* function RingSelector({ selectedFinger, setSelectedFinger }) { // eslint-disable-line react/prop-types
   return (
     <div className='ring-selector'>
       <form>
@@ -96,7 +100,47 @@ function RingSelector({ selectedFinger, setSelectedFinger }) { // eslint-disable
       </form>
     </div>
   )
+} */
+
+function RingSelector({ setSelectedRing }) {
+
+  const handleButtonClick = (imgPath, idx) => {
+    setSelectedRing(imgPath); // Update the selected ring in the parent component
+
+    // Remove active class from all choices
+    const allChoices = document.querySelectorAll('.image-button-container');
+    allChoices.forEach(elm => elm.classList.remove('active'));
+
+    // Add active class to the selected button
+    const currentChoice = document.getElementById(`image-btn-${idx}`);
+    currentChoice.classList.add('active');
+  };
+
+  return (
+    <div className="grid grid-cols-4 gap-4">
+      {rings.map((imgPath, idx) => (
+        <div key={imgPath}>
+          <button
+            type="button"
+            id={`image-btn-${idx}`}
+            className="image-button-container rounded-3xl p-4 border-2 border-gray-300 bg-white hover:border-gray-500 bg-opacity-30"
+            onClick={() => handleButtonClick(imgPath, idx)}
+          >
+            <Image
+              className="image-button hover:scale-110 transition-all"
+              src={imgPath}
+              width="150"
+              height="150"
+              alt={`Ring ${idx + 1}`}
+            />
+          </button>
+        </div>
+      ))}
+    </div>
+  );
 }
+
+
 
 /**React Component for Earring Selector Mobile */
 function RingSelectorMobile({ selectedFinger, setSelectedFinger }) { // eslint-disable-line react/prop-types
@@ -302,14 +346,10 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
 function Vto2dRing({ targetTexture, optScale, optPosX, optPosY }) {
   return (
     <div className="container">
-      <Mapper
-        targetTexture={targetTexture}
-        optScale={optScale}
-        optPosX={optPosX}
-        optPosY={optPosY}
-      />
+      <Mapper targetTexture={ targetTexture }/>
     </div>
   )
 }
 
 export default Vto2dRing
+export const RingSelectors = () => <RingSelector />
