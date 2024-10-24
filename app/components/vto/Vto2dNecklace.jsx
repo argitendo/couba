@@ -108,40 +108,6 @@ const tigaDef = {
   ikSolver: null
 }
 
-function NecklaceSelector(props) {
-  const { selectedNecklace, setSelectedNecklace, images } = props; // eslint-disable-line
-
-  const handleImageChange = (event) => {
-    setSelectedNecklace(event.target.value);
-    const allChoices = document.getElementsByClassName('necklace-image-container');
-    Array.from(allChoices).forEach(elm => elm.classList.remove('active'));
-    const currentChoice = event.target.labels[0].querySelector('.necklace-image-container');
-    currentChoice.classList.add('active');
-  };
-
-  return (
-    <div className="grid grid-cols-4 gap-4">
-      {images.map((imgPath, idx) => (
-        <div key={imgPath}>
-          <button 
-            type="button"
-            id={`necklace-0${idx}`}
-            className='image-button-container rounded-3xl p-4 border-2 border-gray-300 bg-white hover:border-gray-500 bg-opacity-30'
-            onClick={handleImageChange}
-          >
-            <Image
-              className="necklace-image"
-              src={imgPath}
-              alt={imgPath} 
-              width="100%" 
-            />
-          </button>
-        </div>
-      ))}
-    </div>
-  )
-}
-
 // eslint-disable-next-line react/prop-types
 function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
   const videoRef = useRef(null);
