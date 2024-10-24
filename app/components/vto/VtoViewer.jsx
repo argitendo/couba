@@ -87,10 +87,10 @@ function Settings({ optScale, setOptScale, optPosX, setOptPosX, optPosY, setOptP
       <div className="sliders-tab">
         <div className="slider-tab-head flex justify-start gap-3 border-b border-white/20 pt-1 pb-3 mb-2">
           <div className={"slider-tab-btn " + ((activeTab === 'position') ? "active" : "")} onClick={activatePosition}>
-            <VtoIcons.Position /> <p className="pb-0.5">Position</p>
+            <VtoIcons.Position color={(activeTab === 'position') ? "#1B1F3A" : "#FFFFFF"}/> <p>Position</p>
           </div>
           <div className={"slider-tab-btn " + ((activeTab === 'scale') ? "active" : "")} onClick={activateScale}>
-            <VtoIcons.Scale /> <p className="pb-0.5">Scale</p>
+            <VtoIcons.Scale color={(activeTab === 'scale') ? "#1B1F3A" : "#FFFFFF"}/> <p>Scale</p>
           </div>
         </div>
         { activeTab === 'position' &&
