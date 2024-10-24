@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { config } from './config';
 import { BeautyShader } from './webglShaders';
 import {
@@ -24,36 +24,70 @@ const categories = ['bracelet', 'earring', 'necklace', 'ring'];
 const fingerList = ['index', 'middle', 'ring', 'pinky'];
 const defaultCameraAspectRatio = config.videoSize.width / config.videoSize.height;
 
-function Slider({ id, labels, defaultValue, min, max, step, onChange }) {
+function Slider({ id, labels, defaultValue, value, min, max, step, onChange }) {
   return (
-    <>
-      <label
-        htmlFor={id}
-        className="block text-sm font-medium text-gray-900 dark:text-white"
-      >
-        {labels[0]}
-      </label>
-      <input
-        id={id}
-        className="w-full h-0.5 bg-white rounded-lg appearance-none cursor-pointer"
-        type="range"
-        defaultValue={defaultValue}
-        min={min}
-        max={max}
-        step={step}
-        onChange={onChange}
-      />
-    </>
+    <div className="grid grid-cols-6 gap-2 text-sm mb-1">
+      <div className="cols-2">{labels[0]}</div>
+      <div className="col-span-4">
+        <input
+          id={id}
+          className="w-full h-0.5 bg-white rounded-lg appearance-none cursor-pointer"
+          type="range"
+          defaultValue={defaultValue}
+          value={value}
+          min={min}
+          max={max}
+          step={step}
+          onChange={onChange}
+        />
+      </div>
+      <div className="cols-2">{labels[1]}</div>
+    </div>
   )
 }
 
-function Settings({ optScale, setOptScale, optPosX, setOptPosX, optPosY, setOptPosY }) {
+function Settings({ optScale, setOptScale, optPosX, setOptPosX, optPosY, setOptPosY, setShowSetting }) {
+  const [valuePosX, setValuePosX] = useState(optPosX);
+  const [valuePosY, setValuePosY] = useState(optPosY);
+  const [valueScale, setValueScale] = useState(optScale);
+  const [activeTab, setActiveTab] = useState('position');
+
+  const handleReset = () => {
+    setValuePosX(0);
+    setValuePosY(0);
+    setValueScale(1);
+  };
+  const handleClose = () => { setShowSetting(false); };
+  const activatePosition = () => setActiveTab('position');
+  const activateScale = () => setActiveTab('scale');
+
+  useEffect(() => {
+    setOptPosX(valuePosX);
+    setOptPosY(valuePosY);
+    setOptScale(valueScale);
+  }, [valuePosX, valuePosY, valueScale]);
 
   return (
     <div className="setting-container">
-      <Slider id="pos-x-range" labels={['Position X']} defaultValue={optPosX} min={-0.1} max={0.1} step={0.01} onChange={(e) => {setOptPosX(parseFloat(e.target.value));}} />
-      <Slider id="pos-y-range" labels={['Position Y']} defaultValue={optPosY} min={-0.1} max={0.1} step={0.01} onChange={(e) => {setOptPosY(parseFloat(e.target.value));}} />
-      <Slider id="scale-range" labels={['Scale']} defaultValue={optScale} min={0} max={2} step={0.1} onChange={(e) => {setOptScale(parseFloat(e.target.value));}} />
+      <div className="control-menu my-1 mx-3 gap-2 flex justify-end">
+        <button className="setting-control-btn reset-btn ms-auto" onClick={handleReset}>R</button>
+        <button className="setting-control-btn close-btn" onClick={handleClose}>X</button>
+      </div>
+      <div className="sliders-tab">
+        <div className="slider-tab-head flex justify-start gap-3 border-b border-white/20 pt-1 pb-3 mb-2">
+          <div className={"slider-tab-btn " + ((activeTab === 'position') ? "active" : "")} onClick={activatePosition}>Position</div>
+          <div className={"slider-tab-btn " + ((activeTab === 'scale') ? "active" : "")} onClick={activateScale}>Scale</div>
+        </div>
+        { activeTab === 'position' &&
+        <>
+          <Slider id="pos-x-range" labels={['Left', 'Right']} defaultValue={optPosX} value={valuePosX} min={-0.1} max={0.1} step={0.01} onChange={(e) => {setValuePosX(parseFloat(e.target.value));}} />
+          <Slider id="pos-y-range" labels={['Down', 'Up']} defaultValue={optPosY} value={valuePosY} min={-0.1} max={0.1} step={0.01} onChange={(e) => {setValuePosY(parseFloat(e.target.value));}} />
+        </>
+        }
+        { activeTab === 'scale' &&
+          <Slider id="scale-range" labels={['Down', 'Up']} defaultValue={optScale} value={valueScale} min={0} max={2} step={0.1} onChange={(e) => {setValueScale(parseFloat(e.target.value));}} />
+        }
+      </div>
     </div>
   )
 }
@@ -61,17 +95,12 @@ function Settings({ optScale, setOptScale, optPosX, setOptPosX, optPosY, setOptP
 function Bubbles({ options, optionSets, zoomLevel, setZoomLevel, category, selectedFinger, setSelectedFinger }) {
   const [showSettings, setShowSettings] = useState(false);
   const toggleSettings = () => { setShowSettings(!showSettings) };
-  const increaseZoom = () => {
-    if (zoomLevel < 2) setZoomLevel(zoomLevel + 0.1);
-  };
-  const decreaseZoom = () => {
-    if (zoomLevel > 1) setZoomLevel(zoomLevel - 0.1);
-  };
+  const increaseZoom = () => { if (zoomLevel < 2) setZoomLevel(zoomLevel + 0.1); };
+  const decreaseZoom = () => { if (zoomLevel > 1) setZoomLevel(zoomLevel - 0.1); };
   const changeFinger = () => {
     const idx = (fingerList.indexOf(selectedFinger) + 1) % 4;
     setSelectedFinger(fingerList[idx]);
-  }
-
+  };
   return (
     <>
       <div className="bubbles">
@@ -84,7 +113,7 @@ function Bubbles({ options, optionSets, zoomLevel, setZoomLevel, category, selec
           <img src='/finger-switch.svg' alt="Finger Switch Icon" title="Switch Finger" width={20} />
         </div>}
       </div>
-      { showSettings && <Settings show={showSettings} {...options} {...optionSets} />}
+      { showSettings && <Settings {...options} {...optionSets} setShowSetting={setShowSettings} />}
     </>
   )
 }
