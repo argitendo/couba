@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-"use client"
+"use client";
 
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { config } from './config';
 import { BeautyShader } from './webglShaders';
 import {
@@ -19,12 +19,16 @@ import { rigRing } from './solver2dRing';
 import { rigNecklace } from './solver2dNecklace';
 import { poseLandmarker } from './utils';
 import './vto.css';
+import * as VtoIcons from './VtoIcons';
+
+import { Nunito_Sans } from 'next/font/google';
+const nunitoSans = Nunito_Sans({preload: true, subsets: ['latin']});
 
 const categories = ['bracelet', 'earring', 'necklace', 'ring'];
 const fingerList = ['index', 'middle', 'ring', 'pinky'];
 const defaultCameraAspectRatio = config.videoSize.width / config.videoSize.height;
 
-function Slider({ id, labels, defaultValue, value, min, max, step, onChange }) {
+function Slider({ id, labels, value, min, max, step, onChange }) {
   return (
     <div className="grid grid-cols-6 gap-2 text-sm mb-1">
       <div className="cols-2">{labels[0]}</div>
@@ -33,7 +37,6 @@ function Slider({ id, labels, defaultValue, value, min, max, step, onChange }) {
           id={id}
           className="w-full h-0.5 bg-white rounded-lg appearance-none cursor-pointer"
           type="range"
-          defaultValue={defaultValue}
           value={value}
           min={min}
           max={max}
@@ -43,7 +46,7 @@ function Slider({ id, labels, defaultValue, value, min, max, step, onChange }) {
       </div>
       <div className="cols-2">{labels[1]}</div>
     </div>
-  )
+  );
 }
 
 function Settings({ optScale, setOptScale, optPosX, setOptPosX, optPosY, setOptPosY, setShowSetting }) {
@@ -70,31 +73,39 @@ function Settings({ optScale, setOptScale, optPosX, setOptPosX, optPosY, setOptP
   return (
     <div className="setting-container">
       <div className="control-menu my-1 mx-3 gap-2 flex justify-end">
-        <button className="setting-control-btn reset-btn ms-auto" onClick={handleReset}>R</button>
-        <button className="setting-control-btn close-btn" onClick={handleClose}>X</button>
+        <button className="setting-control-btn reset-btn ms-auto" onClick={handleReset}>
+          <VtoIcons.Reset />
+        </button>
+        <button className="setting-control-btn close-btn" onClick={handleClose}>
+          <VtoIcons.Close />
+        </button>
       </div>
       <div className="sliders-tab">
         <div className="slider-tab-head flex justify-start gap-3 border-b border-white/20 pt-1 pb-3 mb-2">
-          <div className={"slider-tab-btn " + ((activeTab === 'position') ? "active" : "")} onClick={activatePosition}>Position</div>
-          <div className={"slider-tab-btn " + ((activeTab === 'scale') ? "active" : "")} onClick={activateScale}>Scale</div>
+          <div className={"slider-tab-btn " + ((activeTab === 'position') ? "active" : "")} onClick={activatePosition}>
+            <VtoIcons.Position /> <p className="pb-0.5">Position</p>
+          </div>
+          <div className={"slider-tab-btn " + ((activeTab === 'scale') ? "active" : "")} onClick={activateScale}>
+            <VtoIcons.Scale /> <p className="pb-0.5">Scale</p>
+          </div>
         </div>
         { activeTab === 'position' &&
         <>
-          <Slider id="pos-x-range" labels={['Left', 'Right']} defaultValue={optPosX} value={valuePosX} min={-0.1} max={0.1} step={0.01} onChange={(e) => {setValuePosX(parseFloat(e.target.value));}} />
-          <Slider id="pos-y-range" labels={['Down', 'Up']} defaultValue={optPosY} value={valuePosY} min={-0.1} max={0.1} step={0.01} onChange={(e) => {setValuePosY(parseFloat(e.target.value));}} />
+          <Slider id="pos-x-range" labels={['Left', 'Right']} value={valuePosX} min={-0.1} max={0.1} step={0.01} onChange={(e) => {setValuePosX(parseFloat(e.target.value));}} />
+          <Slider id="pos-y-range" labels={['Down', 'Up']} value={valuePosY} min={-0.1} max={0.1} step={0.01} onChange={(e) => {setValuePosY(parseFloat(e.target.value));}} />
         </>
         }
         { activeTab === 'scale' &&
-          <Slider id="scale-range" labels={['Down', 'Up']} defaultValue={optScale} value={valueScale} min={0} max={2} step={0.1} onChange={(e) => {setValueScale(parseFloat(e.target.value));}} />
+          <Slider id="scale-range" labels={['Down', 'Up']} value={valueScale} min={0} max={2} step={0.1} onChange={(e) => {setValueScale(parseFloat(e.target.value));}} />
         }
       </div>
     </div>
-  )
+  );
 }
 
 function Bubbles({ options, optionSets, zoomLevel, setZoomLevel, category, selectedFinger, setSelectedFinger }) {
   const [showSettings, setShowSettings] = useState(false);
-  const toggleSettings = () => { setShowSettings(!showSettings) };
+  const toggleSettings = () => { setShowSettings(!showSettings); };
   const increaseZoom = () => { if (zoomLevel < 2) setZoomLevel(zoomLevel + 0.1); };
   const decreaseZoom = () => { if (zoomLevel > 1) setZoomLevel(zoomLevel - 0.1); };
   const changeFinger = () => {
@@ -104,18 +115,26 @@ function Bubbles({ options, optionSets, zoomLevel, setZoomLevel, category, selec
   return (
     <>
       <div className="bubbles">
-        <div className="bubble" onClick={toggleSettings}>🎚️</div>
-        <div className="bubble" onClick={increaseZoom}>+</div>
-        <div className="bubble" onClick={decreaseZoom}>-</div>
-        <div className="bubble">C</div>
+        <div className="bubble" title="Show Settings" onClick={toggleSettings}>
+          <VtoIcons.Menu />
+        </div>
+        <div className="bubble" title="Zoom In" onClick={increaseZoom}>
+          <VtoIcons.ZoomIn />
+        </div>
+        <div className="bubble" title="Zoom Out" onClick={decreaseZoom}>
+          <VtoIcons.ZoomOut />
+        </div>
+        <div className="bubble" title="Capture Image">
+          <VtoIcons.CameraShutter />
+        </div>
         { (category === 'ring') &&
-        <div className="bubble" onClick={changeFinger}>
-          <img src='/finger-switch.svg' alt="Finger Switch Icon" title="Switch Finger" width={20} />
+        <div className="bubble" onClick={changeFinger} title="Finger Switch">
+          <VtoIcons.FingerSwitch />
         </div>}
       </div>
       { showSettings && <Settings {...options} {...optionSets} setShowSetting={setShowSettings} />}
     </>
-  )
+  );
 }
 
 /** Update unique visitor and views statistics */
@@ -135,10 +154,10 @@ function updateStat() {
       statBody.uniqueUser = false;
     } else {
       stat.productVisited.push(productId);
-      localStorage.setItem('couba-analytics', JSON.stringify(stat))
+      localStorage.setItem('couba-analytics', JSON.stringify(stat));
     }
   } else {
-    localStorage.setItem('couba-analytics', JSON.stringify({ productVisited: [productId] }))
+    localStorage.setItem('couba-analytics', JSON.stringify({ productVisited: [productId] }));
   }
   fetch('/api/v1/stat', {
     method: 'POST',
@@ -156,7 +175,7 @@ const tigaDef = {
   camera: null,
   controls: null,
   ikSolver: null
-}
+};
 
 function getInstructionText(category) {
   switch (category) {
@@ -355,7 +374,7 @@ function VtoViewer({ category, targetTexture }) {
               tc.renderer.render(tc.scene, tc.camera);
             }
             rafId.current = window.requestAnimationFrame(renderPrediction);
-          }
+          };
           break;
 
         case 'earring':
@@ -439,7 +458,7 @@ function VtoViewer({ category, targetTexture }) {
               tc.renderer.render(tc.scene, tc.camera);
             }
             rafId.current = window.requestAnimationFrame(renderPrediction);
-          }
+          };
 
         default:
           break;
@@ -453,42 +472,42 @@ function VtoViewer({ category, targetTexture }) {
     }
 
     // return clean up function for animation frame
-    return () => { window.cancelAnimationFrame(rafId.current) };
+    return () => { window.cancelAnimationFrame(rafId.current); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [detecting, optScale, optPosX, optPosY, selectedFinger]);
 
   return (
-    <div className="preview-container" style={{width: config.videoSize.width}}>
+    <div className={"preview-container " + nunitoSans.className} style={{width: config.videoSize.width}}>
       <div className="vto-container" style={{width: config.videoSize.width, height: config.videoSize.height}}>
         <>
           {!detectors && <p className="loading">Loading...</p>}
           {detectors &&
             <>
-            <div className="canvas-wrapper">
-              <div
-                className="video-container"
-                style={{width: config.videoSize.width, height: config.videoSize.height}}
-              >
-                <video
-                  ref={videoRef}
-                  width={`${config.videoSize.width}`}
-                  height={`${config.videoSize.height}`}
-                />
-                <canvas
-                  className='smoothing-canvas'
-                  ref={smoothingCanvasRef}
-                  width={`${config.videoSize.width}`}
-                  height={`${config.videoSize.height}`}
-                />
-                <div className={"instruction " + (showInstruction ? "show" : "")}>
-                  <div className="instruction-item">
-                    <p className="instruction-text">
-                      { getInstructionText(category) }
-                    </p>
-                    <img className="instruction-image" src={getInstructionImage(category)} alt="Instruction" />
+              <div className="canvas-wrapper">
+                <div
+                  className="video-container"
+                  style={{width: config.videoSize.width, height: config.videoSize.height}}
+                >
+                  <video
+                    ref={videoRef}
+                    width={`${config.videoSize.width}`}
+                    height={`${config.videoSize.height}`}
+                  />
+                  <canvas
+                    className='smoothing-canvas'
+                    ref={smoothingCanvasRef}
+                    width={`${config.videoSize.width}`}
+                    height={`${config.videoSize.height}`}
+                  />
+                  <div className={"instruction " + (showInstruction ? "show" : "")}>
+                    <div className="instruction-item">
+                      <p className="instruction-text">
+                        { getInstructionText(category) }
+                      </p>
+                      <img className="instruction-image" src={getInstructionImage(category)} alt="Instruction" />
+                    </div>
                   </div>
-                </div>
-                { !detecting &&
+                  { !detecting &&
                   <>
                     <div className="overlay" />
                     <div className="init-instruction">
@@ -500,19 +519,19 @@ function VtoViewer({ category, targetTexture }) {
                       </button>
                     </div>
                   </>
-                }
-                <div className="watermark">
-                  Powered by <a href="http://tenstud.tv" target="_blank" rel="noopener noreferrer"><img src="/logo_couba.png" alt="logo-couba"/></a>
+                  }
+                  <div className="watermark">
+                    Powered by <a href="http://tenstud.tv" target="_blank" rel="noopener noreferrer"><img src="/logo_couba.png" alt="logo-couba"/></a>
+                  </div>
+                </div>
+                <div className="three-canvas-container">
+                  <canvas
+                    ref={threeCanvasRef}
+                    width={`${config.videoSize.width}`}
+                    height={`${config.videoSize.height}`}
+                  />
                 </div>
               </div>
-              <div className="three-canvas-container">
-                <canvas
-                  ref={threeCanvasRef}
-                  width={`${config.videoSize.width}`}
-                  height={`${config.videoSize.height}`}
-                />
-              </div>
-            </div>
             </>
           }
         </>
@@ -527,7 +546,7 @@ function VtoViewer({ category, targetTexture }) {
         />}
       </div>
     </div>
-  )
+  );
 }
 
 export default VtoViewer;
