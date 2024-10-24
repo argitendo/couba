@@ -1,23 +1,28 @@
-import { RingSelectors } from './Vto2dRing';
-import { useState } from 'react';
-
 import ringsImage from './../data/RingImageData'
-import earringImage from '../data/EarringImageData';
-import NecklaceImage from '../data/NecklaceImageData';
+import earringImage from './../data/EarringImageData';
+import necklaceImage from './../data/NecklaceImageData';
+import braceletsImage from './../data/BraceletImageData';
 
-import { EarringSelectors } from './Vto2dEarrings';
-import { NecklaceSelectors } from './Vto2dNecklace';
+import VtoRingSelector from '../vtoSelector/vtoRingSelector';
+import VtoEarringSelector from '../vtoSelector/VtoEarringSelector';
+import VtoNecklaceSelector from '../vtoSelector/VtoNecklaceSelector';
+import VtoBraceletsSelector from '../vtoSelector/VtoBraceletsSelector';
 
-// eslint-disable-next-line react/prop-types
-function VtoSelectorViewer({ category }) {
-  const [selectedFinger, setSelectedFinger] = useState('');
+function VtoSelectorViewer({ category, setSelectedImage }) {
 
   const getSelectVto = () => {
-    if (category === 'Cincin') return <RingSelectors images={ringsImage} selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger} />;
-    if (category === 'Gelang') return <>Bracelet Not Implemented</>;
-    if (category === 'Anting') return <EarringSelectors images={earringImage} />;
-    if (category === 'Kalung') return <NecklaceSelectors images={NecklaceImage} />;
-    return <div>Not Implemented</div>;
+    switch (category) {
+      case 'Cincin':
+        return <VtoRingSelector setSelectedRing={setSelectedImage} imageList={ringsImage} />;
+      case 'Anting':
+        return <VtoEarringSelector setSelectedEarring={setSelectedImage} imagesList={earringImage} />;
+      case 'Kalung':
+        return <VtoNecklaceSelector setSelectedNecklace={setSelectedImage} imageList={necklaceImage} />;
+      case 'Gelang':
+        return <VtoBraceletsSelector imageList={braceletsImage} />;
+      default:
+        return <div>Selector not founds</div>;
+    }
   }
 
   return (
