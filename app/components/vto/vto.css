@@ -6,12 +6,14 @@
   position: absolute;
   height: 100%;
   width: 100%;
-  z-index: 999;
+  z-index: 20;
   background: #000;
   margin-top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 1rem;
+  color: #FFF;
 }
 
 .device-selector-container select {
@@ -69,7 +71,7 @@
   display: flex;
   align-items: center;
   overflow: hidden;
-  border-radius: 1em;
+  border-radius: 1rem;
 }
 
 .overlay {
@@ -91,6 +93,7 @@
   position: absolute;
   display: flex;
   width: 100%;
+  height: 100%;
   justify-content: center;
   z-index: 10;
   display: flex;

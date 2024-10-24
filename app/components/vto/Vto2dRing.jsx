@@ -16,11 +16,7 @@ import {
   drawScene
 } from './smoothing';
 import './vto.css';
-import ringsImage from './../data/RingImageData'
-import Image from 'next/image';
 import { Button } from '../buttons';
-
-const rings = ringsImage;
 
 // const wasmPath = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm";
 const wasmPath = "/wasm";
@@ -123,43 +119,6 @@ function FingerSelector({ selectedFinger, setSelectedFinger }) { // eslint-disab
     </div>
   )
 } */
-
-function RingSelector({ setSelectedRing, selectedFinger, setSelectedFinger, imageList }) {
-
-  const handleButtonClick = (event) => {
-    setSelectedRing(event.target.value);
-    const allChoices = document.getElementsByClassName('ring-image-container');
-    Array.from(allChoices).forEach(elm => elm.classList.remove('active'));
-    const currentChoice = event.target.labels[0].querySelector('.ring-image-container');
-    currentChoice.classList.add('active');
-  };
-
-  return (
-    <div className="grid grid-cols-4 gap-4">
-      {imageList.map((imgPath, idx) => (
-        <div key={imgPath}>
-          <button
-            type="button"
-            id={`image-btn-${idx}`}
-            className="image-button-container rounded-3xl p-4 border-2 border-gray-300 bg-white hover:border-gray-500 bg-opacity-30"
-            onClick={() => handleButtonClick(imgPath, idx)}
-          >
-            <Image
-              className="image-button hover:scale-110 transition-all"
-              src={imgPath}
-              width="150"
-              height="150"
-              alt={`Ring ${idx + 1}`}
-            />
-          </button>
-        </div>
-      ))}
-      <FingerSelector selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger} />
-    </div>
-  );
-}
-
-
 
 /**React Component for Earring Selector Mobile */
 function RingSelectorMobile({ selectedFinger, setSelectedFinger }) { // eslint-disable-line react/prop-types
@@ -300,7 +259,7 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
     <>
       {!detector && <p className="loading">Loading...</p>}
       {detector &&
-        <div className='flex'>
+        <>
           <div className="canvas-wrapper">
             <div
               className="video-container"
@@ -362,7 +321,7 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
           {/* <div className="metric">
             <RingSelector selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger} />
           </div> */}
-        </div>
+        </>
       }
     </>
   )
@@ -372,15 +331,14 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
 function Vto2dRing({ targetTexture, optScale, optPosX, optPosY }) {
   return (
     <div className="container">
-      <Mapper targetTexture={targetTexture} />
+      <Mapper
+        targetTexture={targetTexture}
+        optScale={optScale}
+        optPosX={optPosX}
+        optPosY={optPosY}
+      />
     </div>
   )
 }
 
 export default Vto2dRing
-export const RingSelectors = ({
-  setSelectedRing,
-  selectedFinger,
-  setSelectedFinger,
-  images
-}) => <RingSelector setSelectedRing={setSelectedRing} selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger} imageList={images} />
