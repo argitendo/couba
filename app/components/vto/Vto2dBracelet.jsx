@@ -148,58 +148,6 @@ const tigaDef = {
   ikSolver: null
 }
 
-/**React Component for Bracelet Selector */
-function BraceletSelector({ setSelectedBracelet }) { // eslint-disable-line react/prop-types
-  const handleImageChange = (event) => {
-    setSelectedBracelet(event.target.value);
-    const allChoices = document.getElementsByClassName('bracelet-image-container');
-    Array.from(allChoices).forEach(elm => elm.classList.remove('active'));
-    const currentChoice = event.target.labels[0].querySelector('.bracelet-image-container');
-    currentChoice.classList.add('active');
-  };
-
-  const handleImageUpload = (event) => {
-    const files = event.target.files[0];
-    if (files) {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(files);
-      fileReader.addEventListener("load", function () {
-        setSelectedBracelet(this.result);
-      });
-    }
-  }
-
-  return (
-    <div className='bracelet-selector'>
-      <h3>Bracelet</h3>
-      <form>
-        <div className="image-selector">
-          {bracelets.map((imgPath, idx) => (
-            <div key={imgPath}>
-              <input
-                type="radio"
-                name="bracelet"
-                value={imgPath}
-                id={`bracelet-0${idx}`}
-                onChange={handleImageChange}
-              />
-              <label htmlFor={`bracelet-0${idx}`}>
-                <div className={'bracelet-image-container ' + (idx === 0 ? 'active' : '')}>
-                  <img className="bracelet-image" src={imgPath} width="100%" alt={imgPath} />
-                </div>
-              </label>
-            </div>
-          ))}
-        </div>
-        <div className="upload-file-container">
-          <h4>Upload Bracelet</h4>
-          <input className="upload-button" type="file" accept="image/*" onChange={handleImageUpload} />
-        </div>
-      </form>
-    </div>
-  )
-}
-
 function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
   const videoRef = useRef(null);
   const guideCanvasRef = useRef(null);
