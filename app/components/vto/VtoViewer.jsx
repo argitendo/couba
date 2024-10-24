@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from 'react';
+import { TextureLoader, RepeatWrapping } from 'three';
 import { config } from './config';
 import { BeautyShader } from './webglShaders';
 import {
@@ -68,6 +69,7 @@ function Settings({ optScale, setOptScale, optPosX, setOptPosX, optPosY, setOptP
     setOptPosX(valuePosX);
     setOptPosY(valuePosY);
     setOptScale(valueScale);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [valuePosX, valuePosY, valueScale]);
 
   return (
@@ -103,7 +105,7 @@ function Settings({ optScale, setOptScale, optPosX, setOptPosX, optPosY, setOptP
   );
 }
 
-function Bubbles({ options, optionSets, zoomLevel, setZoomLevel, category, selectedFinger, setSelectedFinger }) {
+function Bubbles({ options, optionSets, zoomLevel, setZoomLevel, category, selectedFinger, setSelectedFinger, handleCaptureImage }) {
   const [showSettings, setShowSettings] = useState(false);
   const toggleSettings = () => { setShowSettings(!showSettings); };
   const increaseZoom = () => { if (zoomLevel < 2) setZoomLevel(zoomLevel + 0.1); };
@@ -124,7 +126,7 @@ function Bubbles({ options, optionSets, zoomLevel, setZoomLevel, category, selec
         <div className="bubble" title="Zoom Out" onClick={decreaseZoom}>
           <VtoIcons.ZoomOut />
         </div>
-        <div className="bubble" title="Capture Image">
+        <div className="bubble" title="Capture Image" onClick={handleCaptureImage}>
           <VtoIcons.CameraShutter />
         </div>
         { (category === 'ring') &&
@@ -220,6 +222,7 @@ function VtoViewer({ category, targetTexture }) {
   const videoRef = useRef(null);
   const threeCanvasRef = useRef(null);
   const smoothingCanvasRef = useRef(null);
+  const captureCanvasRef = useRef(null);
   const tiga = useRef(tigaDef);
   const rafId = useRef(null);
   const threeInitRef = useRef(null);
@@ -232,9 +235,15 @@ function VtoViewer({ category, targetTexture }) {
   const [mediaStream, setMediaStream] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [selectedFinger, setSelectedFinger] = useState('ring');
+  const [captureFrame, setCaptureFrame] = useState(false);
+  const dataUrl = useRef('');
 
   const handleDetect = () => {
     (!videoRef.current.srcObject) ? alert('Need to select camera first!') : setDetecting(!detecting);
+  };
+
+  const handleCaptureImage = () => {
+    setCaptureFrame(true);
   };
 
   const options = {
@@ -287,7 +296,36 @@ function VtoViewer({ category, targetTexture }) {
         .then((result) => tiga.current = result)
         .catch(err => console.error(`${err.name}: ${err.message}`));
     }
-  }, [detectors, targetTexture]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [detectors]);
+
+  useEffect(() => {
+    if (detecting) {
+      const tc = tiga.current;
+      const newTexture = new TextureLoader().load(targetTexture);
+      switch (category) {
+        case 'bracelet':
+          tc.model.bracelet.material.uniforms.uTexture.value = newTexture;
+          break;
+        case 'earring':
+          const newTextureFlipped = newTexture.clone();
+          newTextureFlipped.wrapS = RepeatWrapping;
+          newTextureFlipped.repeat.x = -1;
+          tc.model.r.material.uniforms.uTexture.value = newTexture;
+          tc.model.l.material.uniforms.uTexture.value = newTextureFlipped;
+          break;
+        case 'ring':
+          tc.model.ring.material.uniforms.uTexture.value = newTexture;
+          break;
+        case 'necklace':
+          tc.model.neck.material.uniforms.uTexture.value = newTexture;
+          break;
+        default:
+          break;
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [targetTexture]);
 
   useEffect(() => {
     return () => {
@@ -317,6 +355,20 @@ function VtoViewer({ category, targetTexture }) {
       bs.initShader();
       threeCanvasRef.current.style.display = 'inline';
 
+      const captureImage = () => {
+        if (captureFrame) {
+          const captureCanvas = captureCanvasRef.current;
+          const captureCtx = captureCanvas.getContext('2d');
+          captureCtx.drawImage(smoothingCanvasRef.current, 0, 0);
+          captureCtx.save();
+          captureCtx.scale(-1,1);
+          captureCtx.drawImage(threeCanvasRef.current, -threeCanvasRef.current.width, 0);
+          captureCtx.restore();
+          dataUrl.current = captureCanvas.toDataURL('image/png');
+          setCaptureFrame(false);
+        }
+      };
+
       let lastVideoTime = -1;
       let renderPrediction;
       switch (category) {
@@ -343,6 +395,7 @@ function VtoViewer({ category, targetTexture }) {
               }
               tc.renderer.render(tc.scene, tc.camera);
             }
+            captureImage();
             rafId.current = window.requestAnimationFrame(renderPrediction);
           };
           break;
@@ -368,6 +421,7 @@ function VtoViewer({ category, targetTexture }) {
               }
               tc.renderer.render(tc.scene, tc.camera);
             }
+            captureImage();
             rafId.current = window.requestAnimationFrame(renderPrediction);
           };
           break;
@@ -395,6 +449,7 @@ function VtoViewer({ category, targetTexture }) {
               }
               tc.renderer.render(tc.scene, tc.camera);
             }
+            captureImage();
             rafId.current = window.requestAnimationFrame(renderPrediction);
           };
           break;
@@ -427,6 +482,7 @@ function VtoViewer({ category, targetTexture }) {
               }
               tc.renderer.render(tc.scene, tc.camera);
             }
+            captureImage();
             rafId.current = window.requestAnimationFrame(renderPrediction);
           };
 
@@ -444,7 +500,18 @@ function VtoViewer({ category, targetTexture }) {
     // return clean up function for animation frame
     return () => { window.cancelAnimationFrame(rafId.current); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [detecting, optScale, optPosX, optPosY, selectedFinger]);
+  }, [detecting, optScale, optPosX, optPosY, selectedFinger, captureFrame]);
+
+  useEffect(() => {
+    if (!captureFrame && dataUrl.current !== '') {
+      const today = new Date();
+      const link = document.createElement('a');
+      link.href = dataUrl.current;
+      link.download = `couba-${today}.png`;
+      link.click();
+      dataUrl.current = '';
+    }
+  }, [captureFrame]);
 
   return (
     <div className={"preview-container " + nunitoSans.className} style={{width: config.videoSize.width}}>
@@ -469,6 +536,13 @@ function VtoViewer({ category, targetTexture }) {
                     width={`${config.videoSize.width}`}
                     height={`${config.videoSize.height}`}
                   />
+                  <canvas
+                    className='capture-canvas'
+                    ref={captureCanvasRef}
+                    width={`${config.videoSize.width}`}
+                    height={`${config.videoSize.height}`}
+                  />
+                  <canvas />
                   <div className={"instruction " + (showInstruction ? "show" : "")}>
                     <div className="instruction-item">
                       <p className="instruction-text">
@@ -513,6 +587,7 @@ function VtoViewer({ category, targetTexture }) {
           category={category}
           selectedFinger={selectedFinger}
           setSelectedFinger={setSelectedFinger}
+          handleCaptureImage={handleCaptureImage}
         />}
       </div>
     </div>

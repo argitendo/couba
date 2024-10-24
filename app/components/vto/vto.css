@@ -185,6 +185,11 @@
   transition: all 1s ease;
 }
 
+.capture-canvas {
+  display: none;
+  position: absolute;
+}
+
 .canvas-container canvas {
   display: none;
   background-color: rgb(37, 37, 37);
