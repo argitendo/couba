@@ -13,11 +13,13 @@ import {
   sl,
   swl
 } from './landmarker';
-import { getThreeInit } from './solver';
-import { rigBracelet } from './solver2dBracelet';
-import { rigEarring } from './solver2dEarrings';
-import { rigRing } from './solver2dRing';
-import { rigNecklace } from './solver2dNecklace';
+import {
+  getThreeInit,
+  rigBracelet,
+  rigEarring,
+  rigNecklace,
+  rigRing
+} from './solver';
 import { poseLandmarker } from './utils';
 import './vto.css';
 import * as VtoIcons from './VtoIcons';
@@ -185,7 +187,7 @@ function getInstructionText(category) {
       return 'Show your right / left back of the hand closer to the camera';
 
     case 'earring':
-      return 'Face forward straight to the camera';
+      return 'Face forward straight to the camera and ensure your ear is exposed';
 
     case 'ring':
       return 'Show your right / left back of the hand closer to the camera';

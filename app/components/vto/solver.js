@@ -20,32 +20,9 @@ export const getThreeInit = (category) => {
     default:
       break;
   }
-}
+};
 
-// const renderPredictionBracelet = async (lastVideoTime) => {
-//   // Applying skin smoothing
-//   if (video.readyState >= video.HAVE_CURRENT_DATA) {
-//     updateTexture(gl, texture, video);
-//     drawScene(gl);
-//   }
-
-//   const startTimeMs = performance.now();
-//   if (lastVideoTime !== video.currentTime) {
-//     lastVideoTime = video.currentTime;
-//     const results = handDetector.detectForVideo(video, startTimeMs);
-//     // do something with the handLandmarks data
-//     const tc = tiga.current;
-//     const sceneVisibility = tc.scene.visible;
-//     if (results.landmarks.length > 0) {
-//       handLandmarks.update(results);
-//       handWorldLandmarks.update(results);
-//       if (!sceneVisibility) tc.scene.visible = true;
-//       rigBracelet(tc.model, handLandmarks, tc.camera, setShowInstruction, optScale, optPosX, optPosY);
-//     } else {
-//       tc.scene.visible = false;
-//       setShowInstruction(true);
-//     }
-//     tc.renderer.render(tc.scene, tc.camera);
-//   }
-//   rafId.current = window.requestAnimationFrame(renderPrediction);
-// }
+export const rigBracelet = bracelet2d.rigBracelet;
+export const rigEarring = earring2d.rigEarring;
+export const rigNecklace = necklace2d.rigNecklace;
+export const rigRing = ring2d.rigRing;
