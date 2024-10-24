@@ -9,7 +9,7 @@ import {
 import { useState, useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { config } from './config';
-import { /* isMobileOrTablet, */ showingGuides } from './utils';
+import { showingGuides } from './utils';
 import { rigBracelet, threeInit } from './solver2dBracelet';
 import {
   createShader,
@@ -19,69 +19,8 @@ import {
 } from './smoothing';
 import './vto.css';
 
-// import modelPath from './models/model.task?url';
-// import instructionImg from './assets/ring-instruction.png';
-
-// import bracelet00 from './assets/bracelet/bracelet00.png';
-// import bracelet01 from './assets/bracelet/bracelet01.png';
-
-// const bracelets = [bracelet00, bracelet01];
-
-// const wasmPath = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm";
 const wasmPath = "/wasm";
-
-let cameraAccess = true;
-// let initialDeviceId;
-// let defaultCameraAspectRatio = 16 / 9;
-let defaultCameraAspectRatio = config.videoSize.width / config.videoSize.height;
-
-// Get camera aspect ratio (width / height)
-// if (navigator.mediaDevices) {
-//   try {
-//     const mediaStreamConstraints = {
-//       audio: false,
-//       video: {
-//         // width: window.innerWidth,
-//         height: window.innerHeight,
-//         aspectRatio: (defaultCameraAspectRatio),
-//         frameRate: { max: 30 },
-//         facingMode: 'user',
-//       },
-//     };
-//     const stream = await navigator.mediaDevices.getUserMedia(mediaStreamConstraints);
-//     const streamSettings = stream.getVideoTracks()[0].getSettings();
-//     // console.log('streamSettings:', streamSettings);
-//     // initialDeviceId = streamSettings.deviceId;
-//     // console.log('initialDeviceId:', initialDeviceId);
-//     // console.log(
-//     //   'config.width:', config.videoSize.width,
-//     //   '| config.height:', config.videoSize.height,
-//     //   '| config.aspectRatio:', config.videoSize.width / config.videoSize.height
-//     // );
-//     // console.log(
-//     //   'width:', streamSettings.width,
-//     //   '| height:', streamSettings.height,
-//     //   '| aspectRatio:', streamSettings.width / streamSettings.height
-//     // );
-//     defaultCameraAspectRatio = streamSettings.width / streamSettings.height;
-//     cameraAccess = true;
-//   } catch (error) {
-//     console.error(error);
-//   } finally {
-//     if (isMobileOrTablet()) {
-//       config.videoSize.width = window.innerWidth;
-//       config.videoSize.height = window.innerWidth / defaultCameraAspectRatio;
-//       // config.videoSize.height = window.innerHeight;
-//       // config.videoSize.width = window.innerHeight * defaultCameraAspectRatio;
-//       defaultCameraAspectRatio = 1 / defaultCameraAspectRatio;
-//     } else {
-//       // config.videoSize.width = config.videoSize.height * defaultCameraAspectRatio;
-//       console.log('innerWidth:', window.innerWidth, 'innerHeight:', window.innerHeight);
-//       config.videoSize.height = window.innerHeight;
-//       config.videoSize.width = config.videoSize.height * defaultCameraAspectRatio;
-//     }
-//   }
-// }
+const defaultCameraAspectRatio = config.videoSize.width / config.videoSize.height;
 
 /** Create Hand Landmarker using Mediapipe Vision Tasks */
 const createHandLandmarker = async () => {
@@ -178,12 +117,10 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
       alert('There is no media device available or not allowed.');
       return;
     }
-    // console.log('innerHeight:', window.innerHeight, 'aspectRatio:', defaultCameraAspectRatio);
+
     navigator.mediaDevices.getUserMedia({
       audio: false,
       video: {
-        // width: window.innerWidth,
-        // height: window.innerHeight,
         aspectRatio: (defaultCameraAspectRatio),
         frameRate: { max: 30 },
         facingMode: 'user',
@@ -349,13 +286,6 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
 function Vto2dBracelet({ targetTexture, optScale, optPosX, optPosY }) {
   return (
     <>
-      {!cameraAccess && <div className="container no-camera-container">
-        <p>
-          This app needs camera access to work,
-          please refresh the page and allow the permission request.
-        </p>
-      </div>}
-      {cameraAccess &&
       <div className="container">
         <Mapper
           targetTexture={targetTexture}
@@ -363,7 +293,7 @@ function Vto2dBracelet({ targetTexture, optScale, optPosX, optPosY }) {
           optPosX={optPosX}
           optPosY={optPosY}
         />
-      </div>}
+      </div>
     </>
   )
 }

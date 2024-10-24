@@ -4,10 +4,7 @@
 import { FilesetResolver, HandLandmarker, DrawingUtils } from '@mediapipe/tasks-vision';
 import { useState, useRef, useEffect } from 'react';
 import { config } from './config';
-import {
-  // isMobileOrTablet,
-  showingGuides
-} from './utils';
+import { showingGuides } from './utils';
 import { rigRing, threeInit, fingerList } from './solver2dRing';
 import {
   createShader,
@@ -18,17 +15,8 @@ import {
 import './vto.css';
 import { Button } from '../buttons';
 
-// const wasmPath = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm";
 const wasmPath = "/wasm";
-
-// const defaultCameraAspectRatio = 16 / 9;
 const defaultCameraAspectRatio = config.videoSize.width / config.videoSize.height;
-
-// if (isMobileOrTablet()) {
-//   config.videoSize.width = window.innerWidth;
-//   // config.videoSize.height = window.innerHeight;
-//   config.videoSize.height = window.innerWidth * defaultCameraAspectRatio;
-// }
 
 /** Create Hand Landmarker using Mediapipe Vision Tasks */
 const createHandLandmarker = async () => {
@@ -149,8 +137,6 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
   const [detector, setDetector] = useState(null);
   const [detecting, setDetecting] = useState(false);
   const [selectedFinger, setSelectedFinger] = useState('');
-  // const [selectedRing, setSelectedRing] = useState(rings[0]);
-  // const [selectedRing, /* setSelectedRing */] = useState(targetTexture);
   const [showInstruction, setShowInstruction] = useState(false);
   const [mediaStream, setMediaStream] = useState(null);
 
@@ -170,8 +156,6 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
       navigator.mediaDevices.getUserMedia({
         audio: false,
         video: {
-          // width: window.innerWidth,
-          // height: window.innerHeight,
           aspectRatio: (defaultCameraAspectRatio),
           frameRate: { max: 30 },
           facingMode: 'user',
@@ -235,7 +219,7 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
             handLandmarks.update(results);
             handWorldLandmarks.update(results);
             if (!sceneVisibility) tc.scene.visible = true;
-            rigRing(tc.model, handLandmarks, handWorldLandmarks, tc.camera, selectedFinger, setShowInstruction, optScale, optPosX, optPosY);
+            rigRing(tc.model, handLandmarks, tc.camera, selectedFinger, setShowInstruction, optScale, optPosX, optPosY);
           } else {
             tc.scene.visible = false;
             setShowInstruction(true);
@@ -260,67 +244,64 @@ function Mapper({ targetTexture, optScale, optPosX, optPosY }) {
       {!detector && <p className="loading">Loading...</p>}
       {detector &&
         <>
-          <div className="canvas-wrapper">
-            <div
-              className="video-container"
-              style={{ width: config.videoSize.width, height: config.videoSize.height }}
-            >
-              {/* <h3>Input Media</h3> */}
-              <video
-                ref={videoRef}
-                width={`${config.videoSize.width}`}
-                height={`${config.videoSize.height}`}
-              />
-              <canvas
-                className='smoothing-canvas'
-                ref={smoothingCanvasRef}
-                width={`${config.videoSize.width}`}
-                height={`${config.videoSize.height}`}
-              />
-              <div className={"instruction " + (showInstruction ? "show" : "")}>
-                <div className="instruction-item">
-                  <p className="instruction-text">
-                    Show your right / left back of the hand closer to the camera
-                  </p>
-                  <img className="instruction-image" src="/ring-instruction.png" alt="Instruction" />
+        <div className="canvas-wrapper">
+          <div
+            className="video-container"
+            style={{width: config.videoSize.width, height: config.videoSize.height}}
+          >
+            <video
+              ref={videoRef}
+              width={`${config.videoSize.width}`}
+              height={`${config.videoSize.height}`}
+            />
+            <canvas
+              className='smoothing-canvas'
+              ref={smoothingCanvasRef}
+              width={`${config.videoSize.width}`}
+              height={`${config.videoSize.height}`}
+            />
+            <div className={"instruction " + (showInstruction ? "show" : "")}>
+              <div className="instruction-item">
+                <p className="instruction-text">
+                  Show your right / left back of the hand closer to the camera
+                </p>
+                <img className="instruction-image" src="/ring-instruction.png" alt="Instruction" />
+              </div>
+            </div>
+            { detecting && <RingSelectorMobile selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger} />}
+            { !detecting &&
+              <>
+                <div className="overlay" />
+                <div className="init-instruction">Show your right / left back of the hand closer to the camera</div>
+                <div className="detection-button-container">
+                  <button className='detection-button' type="button" onClick={handleDetect}>
+                    { !detecting && 'Start Try-On' }
+                  </button>
                 </div>
-              </div>
-              {detecting && <RingSelectorMobile selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger} />}
-              {!detecting &&
-                <>
-                  <div className="overlay" />
-                  <div className="init-instruction">Show your right / left back of the hand closer to the camera</div>
-                  <div className="detection-button-container">
-                    <Button.MainVariantsGreen onClicks={handleDetect}>
-                      {!detecting && 'Start Try-On'}
-                    </Button.MainVariantsGreen>
-                  </div>
-                </>
-              }
-              <div className="watermark text-white">
-                Powered by <a href="http://tenstud.tv" target="_blank" rel="noopener noreferrer"><img src="https://tenstud.tv/assets/img/favicon2/logo-tenstud.png" alt="logo-tenstud" /></a>
-              </div>
-            </div>
-            <div className="canvas-container">
-              {/* <h3>Guide Canvas</h3> */}
-              <canvas
-                ref={guideCanvasRef}
-                width={`${config.videoSize.width}`}
-                height={`${config.videoSize.height}`}
-              />
-            </div>
-            <div className="three-canvas-container">
-              {/* <h3>3D Canvas</h3> */}
-              <canvas
-                ref={threeCanvasRef}
-                width={`${config.videoSize.width}`}
-                height={`${config.videoSize.height}`}
-              />
+              </>
+            }
+            <div className="watermark">
+              Powered by <a href="http://tenstud.tv" target="_blank" rel="noopener noreferrer"><img src="/logo_couba.png" alt="logo-couba"/></a>
             </div>
           </div>
-          {/* <div className="metric">
-            <RingSelector selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger} />
-          </div> */}
+          <div className="canvas-container">
+            <canvas
+              ref={guideCanvasRef}
+              width={`${config.videoSize.width}`}
+              height={`${config.videoSize.height}`}
+            />
+          </div>
+          <div className="three-canvas-container">
+            <canvas
+              ref={threeCanvasRef}
+              width={`${config.videoSize.width}`}
+              height={`${config.videoSize.height}`}
+            />
+          </div>
+        </div>
+        <div className="metric">
+          <RingSelector selectedFinger={selectedFinger} setSelectedFinger={setSelectedFinger}/>
+        </div>
         </>
       }
     </>

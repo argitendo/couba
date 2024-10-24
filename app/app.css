@@ -50,7 +50,8 @@ button:focus-visible {
 }
 
 ::selection {
-  @apply bg-mainColor-secondary text-mainColor-tertiary;
+  color: #1B1F3A;
+  background: #CFFF5E;
 }
 
 ::-webkit-scrollbar {
@@ -98,13 +99,13 @@ code {
 }
 
 .form-background-image {
-  background-image: url('../public/assets/backgrounds/backgrounds_2.png');
+  background-image: url('/assets/backgrounds/backgrounds_2.png');
   background-size: cover;
   background-position: center;
 }
 
 .contact-background-image {
-  background-image: url('../public/assets/backgrounds/backgrounds_3.png');
+  background-image: url('/assets/backgrounds/backgrounds_3.png');
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -119,6 +120,7 @@ code {
 .button-main:hover {
   background-position: 40% 0;
   color: #1B1F3A;
+  border: 2px solid #000;
 }
 
 .button-secondary {
@@ -133,6 +135,7 @@ code {
   /* background-position: 70% 100%; */
   background-position: 90% 0;
   color: #1B1F3A;
+  border: 2px solid #000;
 }
 
 .button-variant {
@@ -145,6 +148,7 @@ code {
 .button-variant:hover {
   background-position: 100% 0;
   color: #1B1F3A;
+  border: 2px solid #000;
 }
 
 .button-variant-secondary {
@@ -159,8 +163,19 @@ code {
   background: radial-gradient(ellipse at top left, #CFFF5E, #FFFFFF, #6663FD) repeat;
   background-size: 100% 150%;
   background-position: 50% 0;
+  border: 2px solid #000;
 }
 
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-gradientColor-primary-start to-gradientColor-primary-end;
+}
+
+#faq-screen {
+  background: url('/assets/backgrounds/backgrounds_2.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
 
 @media (max-width: 1280px) {
   .custom-sticky {
@@ -169,6 +184,11 @@ code {
   }
 }
 
-.gradient-text {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-gradientColor-primary-start to-gradientColor-primary-end;
-}
+/* @media (max-width: 769px) {
+  #faq-screen {
+    background: url('/assets/backgrounds/backgrounds_2.png');
+    background-size: 120%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
+} */
