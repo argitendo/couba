@@ -318,36 +318,6 @@ function VtoViewer({ category, targetTexture }) {
       threeCanvasRef.current.style.display = 'inline';
 
       let lastVideoTime = -1;
-      // const renderPrediction = async () => {
-      //   // Applying skin smoothing
-      //   if (video.readyState >= video.HAVE_CURRENT_DATA) {
-      //     bs.updateTexture(video);
-      //     bs.drawScene();
-      //   }
-
-      //   const startTimeMs = performance.now();
-      //   if (lastVideoTime !== video.currentTime) {
-      //     lastVideoTime = video.currentTime;
-      //     const results = detector.detectForVideo(video, startTimeMs);
-      //     // do something with the handLandmarks data
-      //     const tc = tiga.current;
-      //     const sceneVisibility = tc.scene.visible;
-      //     if (results.landmarks.length > 0) {
-      //       // handLandmarks.update(results);
-      //       // handWorldLandmarks.update(results);
-      //       if (!sceneVisibility) tc.scene.visible = true;
-      //       // rigBracelet(tc.model, handLandmarks, tc.camera, setShowInstruction, optScale, optPosX, optPosY);
-      //       // rigEarring(tc.model, faceLandmarks, tc.camera, setShowInstruction, optScale, optPosX, optPosY);
-      //       // rigRing(tc.model, handLandmarks, tc.camera, selectedFinger, setShowInstruction, optScale, optPosX, optPosY);
-      //       // rigNecklace(tc.model, faceLandmarks, sl, swl, tc.camera, guideCtx, setShowInstruction, optScale, optPosX, optPosY);
-      //     } else {
-      //       tc.scene.visible = false;
-      //       setShowInstruction(true);
-      //     }
-      //     tc.renderer.render(tc.scene, tc.camera);
-      //   }
-      //   rafId.current = window.requestAnimationFrame(renderPrediction);
-      // }
       let renderPrediction;
       switch (category) {
         case 'bracelet':
