@@ -112,6 +112,7 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0,0,0,.6);
+  backdrop-filter: blur(5px);
 }
 .init-instruction {
   position: absolute;
@@ -243,6 +244,7 @@
   transition: 0.2s;
   opacity: 0;
   background-color: rgba(0,0,0,.7);
+  backdrop-filter: blur(5px);
 }
 .instruction-item {
   width: 100%;
