@@ -555,14 +555,17 @@ function VtoViewer({ category, targetTexture }) {
                   </div>
                   { !detecting &&
                   <>
-                    <div className="overlay" />
-                    <div className="init-instruction">
-                      { getInstructionText(category) }
-                    </div>
-                    <div className="detection-button-container">
-                      <button className='detection-button' type="button" onClick={handleDetect}>
-                        { !detecting && 'Start Try-On' }
-                      </button>
+                    <div className="instruction show">
+                      <div className="instruction-item">
+                        <p className="instruction-text">
+                          { getInstructionText(category) }
+                        </p>
+                        <div className="detection-button-container">
+                          <button className='detection-button' type="button" onClick={handleDetect}>
+                            { !detecting && 'Start Try-On' }
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </>
                   }

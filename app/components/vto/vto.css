@@ -107,44 +107,6 @@
   overflow: hidden;
 }
 
-.overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,.6);
-  backdrop-filter: blur(5px);
-}
-.init-instruction {
-  position: absolute;
-  width: 100%;
-  top: 10%;
-  font-size: 1.2em;
-  text-align: center;
-  padding: 0 12px;
-}
-.detection-button-container {
-  position: absolute;
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  z-index: 10;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.detection-button {
-  cursor: pointer;
-  background-color: #CFFF5E;
-  color: #1B1F3A;
-  border-radius: 40px;
-  min-height: 30px;
-  box-shadow: none;
-  border: none;
-  z-index: 10;
-  font-size: 1.1em;
-  padding: 12px 40px;
-}
-
 .watermark {
   position: absolute;
   display: flex;
@@ -260,18 +222,44 @@
 .instruction-text {
   font-size: 1.1em;
   padding: 2em 2em 1em;
-  margin: 0;
+  margin: 40px 0 0;
   text-align: center;
 }
 .instruction-image {
-  height: 300px;
+  height: 250px;
   transition: 0.2s;
-  padding: 50px 0;
+  padding: 0;
+  filter: opacity(0.9);
 }
 @media (max-width: 986px) {
   .instruction-image {
     object-fit: cover;
   }
+}
+.detection-button-container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  z-index: 10;
+  flex-grow: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.detection-button {
+  cursor: pointer;
+  background-color: #CFFF5E;
+  color: #1B1F3A;
+  border: 1px solid #000000;
+  border-radius: 40px;
+  min-height: 30px;
+  box-shadow: none;
+  z-index: 10;
+  font-size: 1.1em;
+  font-weight: 700;
+  padding: 12px 40px;
+  box-shadow: 0 4px 0 0 #000000;
 }
 
 .bubbles {
