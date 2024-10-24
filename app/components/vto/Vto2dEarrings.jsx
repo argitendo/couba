@@ -26,7 +26,6 @@ import {
   drawScene
 } from './smoothing';
 import './vto.css';
-import Image from 'next/image';
 import { Button } from '../buttons';
 
 // const wasmPath = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm";
@@ -77,38 +76,6 @@ const tigaDef = {
   camera: null,
   controls: null,
   ikSolver: null
-}
-
-/**React Component for Earring Selector */
-function EarringSelector({ setSelectedEarring, images }) {
-
-  const handleImageChange = (event) => {
-    setSelectedEarring(event.target.value);
-    const allChoices = document.getElementsByClassName('earring-image-container');
-    Array.from(allChoices).forEach(elm => elm.classList.remove('active'));
-    const currentChoice = event.target.labels[0].querySelector('.earring-image-container');
-    currentChoice.classList.add('active');
-  }
-
-  return (
-    <div className="grid grid-cols-4 gap-4">
-      {images.map((imgPath, idx) => (
-        <div key={imgPath} className='cursor-pointer'>
-          <button 
-            type="button"
-            id={`image-btn-${idx}`}
-            className="image-button-container rounded-3xl p-4 border-2 border-gray-300 bg-white hover:border-gray-500 bg-opacity-30"
-            onClick={() => handleImageChange(imgPath, idx)}
-          >
-            <Image
-              className="earring-image"
-              src={imgPath}
-              width="100%" alt={imgPath} />
-          </button>
-        </div>
-      ))}
-    </div>
-  )
 }
 
 // eslint-disable-next-line react/prop-types
@@ -336,7 +303,3 @@ function Vto2dEarrings({ targetTexture, optScale, optPosX, optPosY }) {
 }
 
 export default Vto2dEarrings
-export const EarringSelectors = ({
-  images,
-  setSelectedEarring
-}) => <EarringSelector images={images} setSelectedEarring={setSelectedEarring} />
